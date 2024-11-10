@@ -1,0 +1,7 @@
+/* Style for image height and object-fit */
+.image-grid img {
+  width: 100%; /* Full width of the column */
+  height: 300px; /* Fixed height */
+  object-fit: cover; /* Ensures the image fills the area without distortion */
+  border-radius: 8px; /* Optional: Rounded corners */
+}

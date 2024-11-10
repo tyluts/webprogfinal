@@ -1,0 +1,29 @@
+.square-card {
+  position: relative;
+  width: 100%;
+  padding-top: 300px; /* Ensures the card is a perfect square */
+  border-radius: 20px; /* Adds rounded corners */
+  overflow: hidden; /* Ensures content doesn't overflow */
+  transition: transform 0.3s ease; /* For smooth hover effect */
+  margin: 0 auto;
+}
+
+.card-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.card-link {
+  text-decoration: none; /* Removes underline from the link */
+}
+
+.card-link:hover .square-card {
+  transform: scale(1.05); /* Slightly enlarges the card on hover */
+}
+
+.card-link:hover .card-body {
+  color: #007bff; /* Optional: change text color on hover */
+}

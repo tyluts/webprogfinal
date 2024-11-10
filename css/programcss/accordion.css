@@ -1,0 +1,18 @@
+/* Sidebar container */
+.sidebar {
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: 20px;
+}
+
+/* Limit sidebar's visible height */
+.sidebar .list-group {
+  max-height: 250px; /* Show only 4 items at a time */
+  overflow-y: auto; /* Enable scroll */
+}
+
+/* Make accordion content scrollable to show only 6 items */
+.accordion-scrollable {
+  max-height: 400px; /* Adjust height to show around 6 items */
+  overflow-y: auto; /* Enable vertical scroll for additional items */
+}

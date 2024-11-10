@@ -1,0 +1,36 @@
+/* Custom modal size */
+.custom-modal-size {
+  max-width: 60%; /* Makes modal take up 90% of the screen width */
+}
+
+/* Custom style to make image within modal larger */
+.enlarged-image {
+  max-width: 100%; /* Makes image take up the full width of the modal */
+  height: 550px; /* Keeps aspect ratio */
+}
+
+/* Remove padding and margin for the container, row, and columns */
+.no-margin-container,
+.no-margin-row,
+.no-margin-col {
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensures images fit the columns perfectly with no gaps */
+.no-margin-row .col-2 {
+  padding: 0;
+}
+
+/* Make images responsive and remove spacing */
+.no-margin-row img {
+  width: 100%;
+  height: auto;
+  display: block; /* Prevents gaps from inline-block spacing */
+}
+
+.grid-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

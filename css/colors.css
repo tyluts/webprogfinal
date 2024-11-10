@@ -1,0 +1,28 @@
+.black {
+  background-color: #14171a;
+}
+.dark-grey {
+  background-color: #23282b;
+}
+
+.dark-red {
+  background-color: #660708;
+}
+.red {
+  color: #e5383b;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.light-grey {
+  color: #a6adb1;
+}
+.bg-red {
+  background-color: #e5383b;
+}
+
+.bg-red:hover {
+  background-color: #6b1617;
+}

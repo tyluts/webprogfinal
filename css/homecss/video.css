@@ -1,0 +1,11 @@
+.ratio {
+  border-radius: 15px;
+  /* Adjust this value for rounded corners */
+  overflow: hidden; /* Ensures the overlay follows the rounded corners */
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.616); /* Semi-transparent black */
+  border-radius: inherit; /* Inherits the border radius from the parent container */
+  z-index: 1; /* Ensures it sits above the video */
+}
