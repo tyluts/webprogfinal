@@ -29,4 +29,6 @@
       <link rel="stylesheet" href="css/aboutuscss/grid.css">
      <link rel="stylesheet" href="css/colors.css">
      
-                                  
+    <link rel="stylesheet" href="../../css/homecss/nav.css">
+    <link rel="stylesheet" href="../../css/colors.css">
+    <link rel="stylesheet" href="../../css/homecss/footer.css">                            
