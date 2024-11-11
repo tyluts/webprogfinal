@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('config.php'); 
+require_once('../config.php'); 
 $errors = array('password' => '', 'username' => '');
 
 if(isset($_POST['submit'])){
@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
                     $_SESSION['ID'] = $row['ID'];
                     echo "<script>
                             alert('Login Successful! Redirecting to main page.');
-                            window.location.href = 'admin.php';
+                            window.location.href = '../admin.php';
                           </script>";
                     exit;
                 } else {
@@ -79,25 +79,27 @@ if(isset($_POST['submit'])){
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
 
-                <h3 class="mb-5">Sign in</h3>
+                <form method="post">
+                    <h3 class="mb-5">Sign in</h3>
 
-                <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
-                <label class="form-label" for="typeEmailX-2" name="username">Email</label>
-                </div>
+                    <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="typeEmailX-2" name="username" class="form-control form-control-lg" />
+                    <label class="form-label" for="typeEmailX-2" >Username</label>
+                    </div>
 
-                <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
-                <label class="form-label" for="typePasswordX-2" name="password">Password</label>
-                </div>
+                    <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
+                    <label class="form-label" for="typePasswordX-2" >Password</label>
+                    </div>
 
-                <!-- Checkbox -->
-                <div class="form-check d-flex justify-content-start mb-4">
-                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
-                <label class="form-check-label" for="form1Example3"> Remember password </label>
-                </div>
+                    <!-- Checkbox -->
+                    <div class="form-check d-flex justify-content-start mb-4">
+                    <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                    <label class="form-check-label" for="form1Example3"> Remember password </label>
+                    </div>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Login</button>
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Login</button>
+                </form>
 
             <hr class="my-4">
           </div>
