@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
                     $_SESSION['ID'] = $row['ID'];
                     echo "<script>
                             alert('Login Successful! Redirecting to main page.');
-                            window.location.href = '../admin.php';
+                            window.location.href = 'dashboard.php';
                           </script>";
                     exit;
                 } else {
