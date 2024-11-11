@@ -1,3 +1,56 @@
+<?php
+session_start();
+require_once('config.php'); 
+$errors = array('password' => '', 'username' => '');
+
+if(isset($_POST['submit'])){
+    // Sanitize input
+    $username = htmlspecialchars(trim($_POST['username']));
+    $password = htmlspecialchars(trim($_POST['password']));
+
+    // Validate inputs
+    if(empty($username)){
+        $errors['username'] = 'Username is required!';
+    }
+    
+    if(empty($password)){
+        $errors['password'] = 'Password is required!';
+    }
+    
+    if(!array_filter($errors)){
+        // Prepare SQL statement to avoid SQL injection
+        if($con) {
+            $stmt = $con->prepare("SELECT * FROM user_accounts WHERE username = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if($result->num_rows > 0){
+                $row = $result->fetch_assoc();
+                // Verify the hashed password
+                if($password == $row['password']) {
+                    // Set session user_id and redirect
+                    $_SESSION['ID'] = $row['ID'];
+                    echo "<script>
+                            alert('Login Successful! Redirecting to main page.');
+                            window.location.href = 'admin.php';
+                          </script>";
+                    exit;
+                } else {
+                    $errors['password'] = 'Incorrect password!';
+                }
+            } else {
+                $errors['username'] = 'Username does not exist!';
+            }
+
+            $stmt->close();
+        } else {
+            $errors['username'] = 'Database connection error!';
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,12 +83,12 @@
 
                 <div data-mdb-input-init class="form-outline mb-4">
                 <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
-                <label class="form-label" for="typeEmailX-2">Email</label>
+                <label class="form-label" for="typeEmailX-2" name="username">Email</label>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
                 <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
-                <label class="form-label" for="typePasswordX-2">Password</label>
+                <label class="form-label" for="typePasswordX-2" name="password">Password</label>
                 </div>
 
                 <!-- Checkbox -->
@@ -44,7 +97,7 @@
                 <label class="form-check-label" for="form1Example3"> Remember password </label>
                 </div>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Login</button>
 
             <hr class="my-4">
           </div>
