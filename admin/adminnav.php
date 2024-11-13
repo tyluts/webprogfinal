@@ -1,4 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
+<?php
+  session_start();
+  require_once('../config.php');
+?>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
   <div class="container-fluid">
     <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
       <span class="navbar-toggler-icon"></span>
@@ -46,6 +51,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link text-white" href="">
+      <a class="nav-link text-dark" href="logout.php">
          Logout
       </a>
     </li>
