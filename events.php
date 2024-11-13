@@ -12,13 +12,13 @@
 </head>
 <style>
       .custom-modal-size {
-    max-width: 60%; /* Makes modal take up 90% of the screen width */
+    max-width: 60%; 
   }
 
-  /* Custom style to make image within modal larger */
+
   .enlarged-image {
-    max-width: 100%; /* Makes image take up the full width of the modal */
-    height: 550px; /* Keeps aspect ratio */
+    max-width: 100%; 
+    height: 550px; 
   }
 </style>
 <body class="black">
@@ -106,27 +106,10 @@
         
     </section>
 
-    <section class=" mb-5">
-        <div class="col container-fluid mt-5">
-            <div  class="row">
-                <h1  class="red montserrat fw-bold">
-                    Past Events
-                </h1>
-            </div>
-        </div>
-        
-    </section>
-    
-   
-    
-     <?php //include 'include/footer.php'; ?>
+     <?php include 'include/footer.php'; ?>
 
-
-
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-</html>
-<script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+     <script>
 
     $(document).ready(function () {
 
@@ -156,3 +139,6 @@
     });
 
 </script>
+               
+</body>
+</html>

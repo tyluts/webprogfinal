@@ -13,7 +13,7 @@
     <title>Home</title>
     <style>
       .card-link:hover .card-body {
-  color: #e5383b !important; /* Optional: change text color on hover */
+  color: #e5383b !important; 
 }
     </style>
 </head>
@@ -21,8 +21,6 @@
     <?php include 'adminnav.php'; ?>
 
     <div class="content  " style="padding: 20px; margin-top: 50px; height: calc(100vh - 56px); overflow-y: auto;">
-    
-  
  
 
   <div class="container mt-5 py-5 ">

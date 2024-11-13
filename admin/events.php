@@ -118,52 +118,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-     <div class="content  " style="padding: 20px; margin-top: 50px; height: calc(100vh - 56px); overflow-y: auto;"> 
-      <div class="container my-5 d-flex mx-auto align-items-center justify-content-center">
-            <div class="card mx-auto col-12">
-                <div class="card-body">
-                    <h5 class="card-title">
-                      Read Events
-                    </h5>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Add Record
-                    </button>
-                  
-                    <table class="table table-responsive table-bordered table-striped table-hover mt-2">
-                        <thead>
-                            <tr>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>ID</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>IMAGE</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>TITLE</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>DESCRIPTION</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>DATE</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>LOCATION</strong></th>
-                                <th class="px-3 py-3 text-center" scope="col"><strong>ACTION</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php while($res = mysqli_fetch_assoc($eventsSqlResult)) { ?>
-                            <tr>
-                                <td class="px-3 py-3 text-center"><?php echo $res['ID'] ?></td>
-                                <td class="px-3 py-3 text-center"><img src="<?php echo $res['img'] ?>" alt="Event Image" width="50"></td>
-                                <td class="px-3 py-3 text-center"><?php echo $res['title'] ?></td>
-                                <td class="px-3 py-3 text-center"><?php echo $res['description'] ?></td>
-                                <td class="px-3 py-3 text-center"><?php echo $res['date'] ?></td>
-                                <td class="px-3 py-3 text-center"><?php echo $res['loc'] ?></td>
-                                <td class="px-3 py-3 text-center">
-                                    <a href="#" class="mx-auto">
-                                        <i class="bi bi-pencil-square mx-auto"></i><i class="bi bi-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
+     
+<div class="container-fluid mt-5 d-flex align-items-center justify-content-center" style="height: calc(100vh - 56px);">
+    <div class="card col-12 col-md-8 col-lg-6">
+        <div class="card-body">
+            <h5 class="card-title">
+                Read Events
+            </h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add Record
+            </button>
 
-                </div>
+            <!-- Full-width responsive table -->
+            <div class="table-responsive mt-2">
+                <table class="table table-bordered table-striped table-hover w-100">
+                    <thead>
+                        <tr>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>ID</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>IMAGE</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>TITLE</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>DESCRIPTION</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>DATE</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>LOCATION</strong></th>
+                            <th class="px-3 py-3 text-center" scope="col"><strong>ACTION</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php while($res = mysqli_fetch_assoc($eventsSqlResult)) { ?>
+                        <tr>
+                            <td class="px-3 py-3 text-center"><?php echo $res['ID'] ?></td>
+                            <td class="px-3 py-3 text-center"><img src="<?php echo $res['img'] ?>" alt="Event Image" width="50"></td>
+                            <td class="px-3 py-3 text-center"><?php echo $res['title'] ?></td>
+                            <td class="px-3 py-3 text-center"><?php echo $res['description'] ?></td>
+                            <td class="px-3 py-3 text-center"><?php echo $res['date'] ?></td>
+                            <td class="px-3 py-3 text-center"><?php echo $res['loc'] ?></td>
+                            <td class="px-3 py-3 text-center">
+                                <a href="#" class="mx-auto">
+                                    <i class="bi bi-pencil-square"></i><i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-      </div>  
+    </div>
+</div>
+
+
+
+
     
 </body>
 </html>

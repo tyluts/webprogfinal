@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
+
 <?php
   session_start();
   require_once('../config.php');
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
   <div class="container-fluid">
     <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
       <span class="navbar-toggler-icon"></span>
@@ -106,26 +106,23 @@
   </div>
 </div>
 
-<!-- Main Content Area -->
 
-
-<!-- Bootstrap JavaScript Bundle (required for dropdown and offcanvas) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
   /* Adjust main content padding for larger screens */
   @media (min-width: 992px) {
     .content {
-      margin-left: 250px; /* Align content to the right of the sidebar */
+      margin-left: 250px; 
     }
   }
 
   /* Adjust main content for smaller screens */
   @media (max-width: 991.98px) {
     .content {
-      margin-left: 0; /* Remove margin for mobile screens */
+      margin-left: 0; 
       padding-left: 10px;
-      padding-right: 10px; /* Add padding for better appearance */
+      padding-right: 10px;
     }
   }
 

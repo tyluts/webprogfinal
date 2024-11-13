@@ -4,26 +4,26 @@
     <?php include 'include/head.php'; ?>
     <title>Home</title>
       <style>
-    .carousel-outer-controls .carousel-control-prev,
-.carousel-outer-controls .carousel-control-next {
-    width: 10%; /* Make the button smaller */
-}
+          .carousel-outer-controls .carousel-control-prev,
+          .carousel-outer-controls .carousel-control-next {
+          width: 10%; 
+          }
 
-.carousel-outer-controls .carousel-control-prev {
-    left: 2rem; /* Position it outside the carousel on the left */
-}
+          .carousel-outer-controls .carousel-control-prev {
+          left: 2rem; 
+          }
 
-.carousel-outer-controls .carousel-control-next {
-    right: 2rem; /* Position it outside the carousel on the right */
-}
+          .carousel-outer-controls .carousel-control-next {
+          right: 2rem; 
+          }
 
-.carousel-inner img {
-    height: 100%; /* Ensures images fit within the fixed height */
-    object-fit: cover; /* Ensures the image is cropped to fit without distortion */
-}
-
-  </style>
+          .carousel-inner img {
+          height: 100%; 
+          object-fit: cover;
+          }
+      </style>
 </head>
+
 <body class="black">
      <?php include 'include/navigation.php'; ?>
   
@@ -48,8 +48,6 @@
          <?php include 'programs/card.php'; ?>
     </section>
 
-    
-    
      <?php include 'include/footer.php'; ?>
 
 </body>
