@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
   <div class="container-fluid">
     <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
       <span class="navbar-toggler-icon"></span>
@@ -11,41 +11,41 @@
 </nav>
 
 <!-- Sidebar for larger screens -->
-<div class="d-none d-lg-flex flex-column bg-light border-end position-fixed" style="width: 250px; top: 56px; bottom: 0; left: 0; overflow-y: auto;">
+<div class="d-none d-lg-flex flex-column bg-dark white border-end position-fixed" style="width: 250px; top: 56px; bottom: 0; left: 0; overflow-y: auto;">
   <ul class="nav flex-column p-4">
     <li class="nav-item">
-      <a class="nav-link text-dark" href="dashboard.php">
+      <a class="nav-link text-white" href="dashboard.php">
          Dashboard
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="programs.php">
+      <a class="nav-link text-white" href="programs.php">
          Manage Programs
        
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="events.php">
+      <a class="nav-link text-white" href="events.php">
          Manage Events
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="hero.php">
+      <a class="nav-link text-white" href="hero.php">
          Manage Hero 
       </a>
     </li>
      <li class="nav-item">
-      <a class="nav-link text-dark" href="news.php">
+      <a class="nav-link text-white" href="news.php">
          Manage News
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="aboutus.php">
+      <a class="nav-link text-white" href="aboutus.php">
          Manage About Us
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="">
+      <a class="nav-link text-white" href="">
          Logout
       </a>
     </li>
@@ -53,45 +53,45 @@
 </div>
 
 <!-- Sidebar for smaller screens (offcanvas) -->
-<div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+<div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <h5 class="offcanvas-title text-white" id="sidebarLabel">Menu</h5>
+    <button type="button " class="btn-close text-reset bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
     <ul class="nav flex-column">
       <li class="nav-item">
-      <a class="nav-link text-dark" href="dashboard.php">
+      <a class="nav-link text-white" href="dashboard.php">
          Manage Dashboard
       </a>
     </li>
        <li class="nav-item">
-      <a class="nav-link text-dark" href="programs.php">
+      <a class="nav-link text-white" href="programs.php">
          Manage Programs
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="events.php">
+      <a class="nav-link text-white" href="events.php">
          Manage Events
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="hero.php">
+      <a class="nav-link text-white" href="hero.php">
          Manage Hero 
       </a>
     </li>
      <li class="nav-item">
-      <a class="nav-link text-dark" href="news.php">
+      <a class="nav-link text-white" href="news.php">
          Manage News
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-dark" href="aboutus.php">
+      <a class="nav-link text-white" href="aboutus.php">
          Manage About Us
       </a>
     </li>
      <li class="nav-item">
-      <a class="nav-link text-dark" href="#">
+      <a class="nav-link text-white" href="#">
         Logout
       </a>
     </li>
