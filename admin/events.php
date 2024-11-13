@@ -3,7 +3,7 @@ require_once('../config.php');
 $eventsSql = "SELECT * FROM events";
 $eventsSqlResult = $con->query($eventsSql);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $datetime = $_POST['datetime'];
@@ -72,11 +72,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../include/head.php'; ?>
-    <link rel="stylesheet" href="../css/admincss/adminnav.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS (single version) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome & Boxicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Stylesheets (remove duplicates) -->
+    <link rel="stylesheet" href="css/homecss/color.css">
+    <link rel="stylesheet" href="css/homecss/nav.css">
+    <link rel="stylesheet" href="css/homecss/footer.css">
+    <link rel="stylesheet" href="css/homecss/card.css">
+    <link rel="stylesheet" href="css/homecss/video.css">
+    <link rel="stylesheet" href="css/homecss/contactform.css">
+    <link rel="stylesheet" href="css/programcss/accordion.css">
+    <link rel="stylesheet" href="css/eventscss/grid.css">
+    <link rel="stylesheet" href="css/aboutuscss/carousel.css">
+    <link rel="stylesheet" href="css/aboutuscss/grid.css">
+    <link rel="stylesheet" href="css/colors.css">
 </head>
+<style>
+    .modal-backdrop {
+        display: none !important;
+    }
+
+</style>
 <body class="black">
     <?php include 'adminnav.php'; ?>
 
@@ -89,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="modal-body">
                 <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="event_form">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
@@ -118,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-     <div class="content  " style="padding: 20px; margin-top: 50px; height: calc(100vh - 56px); overflow-y: auto;"> 
+     <div class="content" style="padding: 20px; margin-top: 50px; height: calc(100vh - 56px); overflow-y: auto;"> 
       <div class="container my-5 d-flex mx-auto align-items-center justify-content-center">
             <div class="card mx-auto col-12">
                 <div class="card-body">
@@ -164,6 +194,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
       </div>  
-    
+      <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
