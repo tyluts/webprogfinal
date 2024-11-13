@@ -1,14 +1,8 @@
+<?php
+    require_once('../config.php');
+    
+?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <?php include '../include/head.php'; ?>
-    <link rel="stylesheet" href="../css/admincss/adminnav.css">
-    <title>Home</title>
-</head>
-<body class="black">
-    <?php include 'adminnav.php'; ?>
-
-    <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php include '../include/head.php'; ?>
