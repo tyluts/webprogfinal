@@ -1,5 +1,4 @@
 <?php
-    
     require_once('config.php');
     $eventsSql = "SELECT * FROM events order by date asc";
     $eventsSqlResult = $con->query($eventsSql);
@@ -64,7 +63,6 @@
                 </p>
             </div>
         </div>
-        <?php include 'events/eventcards.php'; ?>
         <div class="container-fluid  mt-4 mb-5 ">
             <div class="row d-flex justify-content-center">
                 <!-- Card 1 -->
@@ -104,13 +102,8 @@
                     News
                 </h1>
             </div>
-            <div  class="row">
-                <p  class="white hind">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                </p>
-            </div>
         </div>
-        <?php include 'events/newscards.php'; ?>
+        
     </section>
 
     <section class=" mb-5">
@@ -120,19 +113,13 @@
                     Past Events
                 </h1>
             </div>
-            <div  class="row">
-                <p  class="white hind">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                </p>
-            </div>
         </div>
-         <?php include 'events/accordion.php'; ?>
         
     </section>
     
    
     
-     <?php include 'include/footer.php'; ?>
+     <?php //include 'include/footer.php'; ?>
 
 
 
