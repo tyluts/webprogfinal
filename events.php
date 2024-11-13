@@ -36,9 +36,25 @@
                 </p>
             </div>
         </div>
-        <?php include 'events/cards.php'; ?>
+        <?php include 'events/eventcards.php'; ?>
     </section>
     <?php include 'events/modal.php'; ?>
+
+    <section class="">
+         <div class="col container-fluid mt-5">
+            <div  class="row">
+                <h1  class="red montserrat fw-bold">
+                    News
+                </h1>
+            </div>
+            <div  class="row">
+                <p  class="white hind">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                </p>
+            </div>
+        </div>
+        <?php include 'events/newscards.php'; ?>
+    </section>
 
     <section class=" mb-5">
         <div class="col container-fluid mt-5">
