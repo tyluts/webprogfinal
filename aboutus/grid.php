@@ -1,51 +1,78 @@
 <div class="container-fluid my-4">
-        <!-- Top row with one large image -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="position-relative" >
-                    <img src="img/frosh.jpg" alt="Computer Laboratory" class="grid-image" onclick="openModal(this)"style="height: 500px;">
-                    
-                </div>
+    <!-- Top row with one large image -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="position-relative">
+                <img src="img/frosh.jpg" alt="Computer Laboratory" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)"
+                     style="height: auto; max-height: 400px; object-fit: cover;">
             </div>
         </div>
+    </div>
 
-        <!-- Bottom row with smaller images -->
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <img src="img/frosh.jpg" alt="Lab Image 1" class="grid-image" onclick="openModal(this)">
-            </div>
-            <div class="col-6 col-md-3">
-                <img src="img/frosh.jpg" alt="Lab Image 2"class="grid-image" onclick="openModal(this)">
-            </div>
-            <div class="col-6 col-md-3">
-                <img src="img/frosh.jpg" alt="Lab Image 3" class="grid-image" onclick="openModal(this)">
-            </div>
-            <div class="col-6 col-md-3">
-                <img src="img/frosh.jpg" alt="Lab Image 4" class="grid-image" onclick="openModal(this)">
-            </div>
+    <!-- Bottom row with smaller images -->
+    <div class="row g-3">
+        <div class="col-6 col-md-3 col-lg-3">
+            <img src="img/frosh.jpg" alt="Lab Image 1" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+            <img src="img/frosh.jpg" alt="Lab Image 2" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+            <img src="img/frosh.jpg" alt="Lab Image 3" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
+        </div>
+        <div class="col-6 col-md-3 col-lg-3">
+            <img src="img/frosh.jpg" alt="Lab Image 4" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
         </div>
     </div>
-<!-- Modal Structure -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-  <div class="modal-dialog custom-modal-size">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <!-- Adjust image size within modal -->
-        <img id="modalImage" src="" alt="Larger image" class="img-fluid enlarged-image">
-      </div>
-    </div>
-  </div>
 </div>
 
+<div id="fullscreenOverlay" class="overlay" onclick="closeFullscreen()">
+    <img id="overlayImage" src="" alt="Full-screen view" class="overlay-image">
+</div>
+
+<style>
+/* Thumbnail styling */
+.thumbnail {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Full-screen overlay styling */
+.overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8); /* Dark background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay-image {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.7);
+    transition: transform 0.3s ease;
+}
+
+
+
+</style>
+
 <script>
-  function openModal(image) {
-    // Set the src of the modal image to the clicked image's src
-    document.getElementById("modalImage").src = image.src;
-    // Show the modal
-    var imageModal = new bootstrap.Modal(document.getElementById("imageModal"));
-    imageModal.show();
-  }
+function openFullscreen(image) {
+    // Set the src of the overlay image to the clicked image's src
+    document.getElementById("overlayImage").src = image.src;
+    // Show the overlay
+    document.getElementById("fullscreenOverlay").style.display = "flex";
+}
+
+function closeFullscreen() {
+    // Hide the overlay
+    document.getElementById("fullscreenOverlay").style.display = "none";
+}
+
 </script>

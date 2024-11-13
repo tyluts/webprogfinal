@@ -11,6 +11,11 @@
     <?php include '../include/head.php'; ?>
     <link rel="stylesheet" href="../css/admincss/dashboard.css">
     <title>Home</title>
+    <style>
+      .card-link:hover .card-body {
+  color: #e5383b !important; /* Optional: change text color on hover */
+}
+    </style>
 </head>
 <body class="black">
     <?php include 'adminnav.php'; ?>
@@ -20,11 +25,11 @@
   
  
 
-  <div class="container mt-5 py-5">
+  <div class="container mt-5 py-5 ">
   <div class="row">
-    <div class="col-md-6 mb-4">
+    <div class="col-md-6 mb-4" >
       <a href="page1.html" class="card-link">
-        <div class="card square-card">
+        <div class="card square-card ">
           <div class="card-body d-flex flex-column justify-content-center">
             <h5 class="card-title text-center">Title 1</h5>
             <p class="card-text text-center">This is the description for the first card.</p>
@@ -34,7 +39,7 @@
     </div>
     <div class="col-md-6 mb-4">
       <a href="page2.html" class="card-link">
-        <div class="card square-card">
+        <div class="card square-card ">
           <div class="card-body d-flex flex-column justify-content-center">
             <h5 class="card-title text-center">Title 2</h5>
             <p class="card-text text-center">This is the description for the second card.</p>
