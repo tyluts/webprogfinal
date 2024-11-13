@@ -1,8 +1,8 @@
 <?php
   require_once('../config.php');
   
-  
-
+  $eventsSql = "SELECT * FROM events ORDER BY date asc";
+  $eventsSqlResult = $con->query($eventsSql);
 ?>
 
 <!DOCTYPE html>
