@@ -28,6 +28,6 @@
             </div>
             <?php include 'home/accordion.php'; ?>
         </div>
-
+        <?php include 'include/footer.php'; ?>
 </body>
 </html>
