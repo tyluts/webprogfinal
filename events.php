@@ -111,57 +111,55 @@
             </div>
         </div>
         <div class="container mt-4 mb-5 ">
-        <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php if($eventsSqlResult->num_rows > 0): ?>
-                    <?php 
-                    $isFirst = true; // Track the first item for active class 
-                    $counter = 0; // Counter to group cards in sets of 2
-                    ?>
-                    <?php while($row = $eventsSqlResult->fetch_assoc()): ?>
-                        <?php if ($counter % 3 == 0): // Start a new carousel item for every 2 events ?>
-                            <div class="carousel-item <?php echo $isFirst ? 'active' : ''; ?>">
-                                <div class="d-flex justify-content-center">
-                        <?php endif; ?>
+            <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php if($eventsSqlResult->num_rows > 0): ?>
+                        <?php 
+                        $isFirst = true; // Track the first item for active class 
+                        $counter = 0; // Counter to group cards in sets of 2
+                        ?>
+                        <?php while($row = $eventsSqlResult->fetch_assoc()): ?>
+                            <?php if ($counter % 3 == 0): // Start a new carousel item for every 2 events ?>
+                                <div class="carousel-item <?php echo $isFirst ? 'active' : ''; ?>">
+                                    <div class="d-flex justify-content-center">
+                            <?php endif; ?>
 
-                            <div class="card event-card dark-grey mx-2" style="width: 410px;">
-                                <img src="./admin/<?php echo $row['img'] ?>" alt="Event Image" class="event-image">
-                                <span class="date-badge bg-red"><?php echo $row['date']; ?></span>
-                                <div class="card-body">
-                                    <input type="hidden" class="user_id" value="<?php echo $row['ID']; ?>">
-                                    <p class="text-white"><i class="fas fa-map-marker-alt"></i> <?php echo $row['loc']; ?></p>
-                                    <h5 class="card-title text-white"><?php echo $row['title']; ?></h5>
-                                    <h6 class="card-title text-white"><?php echo $row['description']; ?></h6>
-                                    <a class="btn bg-red text-white view_deets">View details</a>
+                                <div class="card event-card dark-grey mx-2" style="width: 410px;">
+                                    <img src="./admin/<?php echo $row['img'] ?>" alt="Event Image" class="event-image">
+                                    <span class="date-badge bg-red"><?php echo $row['date']; ?></span>
+                                    <div class="card-body">
+                                        <input type="hidden" class="user_id" value="<?php echo $row['ID']; ?>">
+                                        <p class="text-white"><i class="fas fa-map-marker-alt"></i> <?php echo $row['loc']; ?></p>
+                                        <h5 class="card-title text-white"><?php echo $row['title']; ?></h5>
+                                        <h6 class="card-title text-white"><?php echo $row['description']; ?></h6>
+                                        <a class="btn bg-red text-white view_deets">View details</a>
+                                    </div>
                                 </div>
-                            </div>
 
-                        <?php if ($counter % 3 == 2 || $counter == $eventsSqlResult->num_rows - 1): // Close the carousel item every 2 events ?>
+                            <?php if ($counter % 3 == 2 || $counter == $eventsSqlResult->num_rows - 1): // Close the carousel item every 2 events ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <?php $isFirst = false; // Set isFirst to false after the first iteration ?>
-                        <?php endif; ?>
-                        <?php $counter++; ?>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="carousel-item active">
-                        <div class="text-center text-white">No announcements found</div>
-                    </div>
-                <?php endif; ?>
+                                <?php $isFirst = false; // Set isFirst to false after the first iteration ?>
+                            <?php endif; ?>
+                            <?php $counter++; ?>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <div class="carousel-item active">
+                            <div class="text-center text-white">No announcements found</div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-        
-            <!-- Carousel controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#eventCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-
         </div>
 
     </section>
@@ -178,33 +176,59 @@
                     Latest news of Lyceum of Subic Bay. 
                 </p>
             </div>
-        </div><div class="container-fluid  mt-4 mb-5 ">
-            <div class="row d-flex justify-content-center">
-                <!-- Card 1 -->
-                <?php if($news_sql_result->num_rows > 0): ?>
-                    <?php while($news = $news_sql_result-> fetch_assoc()):?>
-                        <div class="col-md-4">
-                            <div class="card event-card dark-grey ms-auto my-3">
-                                <img src="./admin/<?php echo $news['photo'] ?>" alt="Event Image" class="event-image">
-                                <span class="date-badge bg-red"><?php echo $news['date_posted'];?></span>
-                                <div class="card-body">
-                                    <input type="hidden" class="news_id" value="<?php echo $news['ID']; ?>">
-                                    <h5 class="card-title text-white"><?php echo $news['title'];?></h5>
-                                    <h6 class="card-title text-white"><?php echo $news['caption'];?></h5>
-                                    <a class="btn bg-red text-white view_news_deets">
-                                        View details
-                                    </a>
-                                    
+        </div>
+        <div class="container-fluid  mt-4 mb-5 ">
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row d-flex justify-content-center">
+                        <?php if($news_sql_result->num_rows > 0): ?>
+                            <?php 
+                            $counter = 0; // to keep track of items in a slide
+                            while($news = $news_sql_result->fetch_assoc()): 
+                                if ($counter > 0 && $counter % 3 == 0): // Start a new slide every 3 items
+                        ?>
                                 </div>
                             </div>
-                        </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5" class="text-center">No announcements found</td>
-                    </tr>
-                <?php endif; ?>
+                            <div class="carousel-item">
+                                <div class="row d-flex justify-content-center">
+                        <?php 
+                                endif;
+                                $counter++;
+                        ?>
+                                <div class="col-md-4" style="max-width: 410px;">
+                                    <div class="card event-card dark-grey ms-auto my-3">
+                                        <img src="./admin/<?php echo $news['photo'] ?>" alt="Event Image" class="event-image">
+                                        <span class="date-badge bg-red"><?php echo $news['date_posted']; ?></span>
+                                        <div class="card-body">
+                                            <input type="hidden" class="news_id" value="<?php echo $news['ID']; ?>">
+                                            <h5 class="card-title text-white"><?php echo $news['title']; ?></h5>
+                                            <h6 class="card-title text-white"><?php echo $news['caption']; ?></h6>
+                                            <a class="btn bg-red text-white view_news_deets">
+                                                View details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p class="text-center">No announcements found</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
+
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
         </div>
         
     </section>
