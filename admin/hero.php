@@ -14,9 +14,9 @@
 
 
 
-     <div class="content  " style="padding: 20px; margin-top: 50px; height: calc(100vh - 56px); overflow-y: auto;"> 
-      <div class="container my-5 d-flex mx-auto align-items-center justify-content-center">
-            <div class="card mx-auto col-12">
+
+        <div class="container-fluid mt-5 d-flex align-items-center justify-content-center" style="height: calc(100vh - 56px);">
+            <div class="card col-12 col-md-8 col-lg-6">
                 <div class="card-body">
                     <h5 class="card-title">
                       Read Hero
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-      </div>  
+
     
 </body>
 </html>

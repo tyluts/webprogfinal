@@ -209,20 +209,7 @@
         
     </section>
 
-    <section class=" mb-5">
-        <div class="col container-fluid mt-5">
-            <div  class="row">
-                <h1  class="red montserrat fw-bold">
-                    Past Events
-                </h1>
-            </div>
-        </div>
-        
-    </section>
     
-   
-    
-     <?php //include 'include/footer.php'; ?>
 
      
     <!-- jQuery (required for Bootstrap's JavaScript components) -->
@@ -232,7 +219,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 
-
+                    
 </body>
 </html>
 <script>
@@ -282,4 +269,3 @@
         });
     });
 </script>
-
