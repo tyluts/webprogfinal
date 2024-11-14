@@ -74,20 +74,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap CSS (single version) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+    
+    <!-- CoreUI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.2.0/dist/css/coreui.min.css" rel="stylesheet"  crossorigin="anonymous">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome & Boxicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Boxicons -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    <!-- Custom Stylesheets (remove duplicates) -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/homecss/color.css">
     <link rel="stylesheet" href="css/homecss/nav.css">
     <link rel="stylesheet" href="css/homecss/footer.css">
@@ -108,12 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
 </style>
 <body class="black">
     <?php include 'adminnav.php'; ?>
-
+    <!---------insert modal------>
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Event</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -147,7 +154,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
             </div>
         </div>
     </div>
+    <!---------insert modal------>
 
+
+    <!---------edit modal------>
+    <div class="modal fade" id="editModalstaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalstaticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalstaticBackdropLabel">Update Event</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="code.php">
+                    <input type="hidden" class="event_id" name="id" >
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control event_title" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control event_desc" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Choose Image</label>
+                        <input type="file" class="form-control event_img" id="image" name="image" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="datetime" class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control event_date" id="datetime" name="datetime" required>
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="loc" class="form-label">Location</label>
+                        <input type="text" class="form-control event_loc" id="loc" name="loc" required>
+                    </div>
+                    <button type="submit" name="update_event" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+    
+            </div>
+        </div>
+    </div>
+    <!---------edit modal------>
      
 <div class="container-fluid mt-5 d-flex align-items-center justify-content-center" style="height: calc(100vh - 56px);">
     <div class="card col-12 col-md-8 col-lg-6">
@@ -175,14 +224,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
                 <tbody>
                 <?php while($res = mysqli_fetch_assoc($eventsSqlResult)) { ?>
                     <tr>
-                        <td class="px-3 py-3 text-center"><?php echo $res['ID'] ?></td>
+                        <td class="px-3 py-3 text-center event_id"><?php echo $res['ID'] ?></td>
                         <td class="px-3 py-3 text-center"><img src="<?php echo $res['img'] ?>" alt="Event Image" width="50"></td>
                         <td class="px-3 py-3 text-center"><?php echo $res['title'] ?></td>
                         <td class="px-3 py-3 text-center"><?php echo $res['description'] ?></td>
                         <td class="px-3 py-3 text-center"><?php echo $res['date'] ?></td>
                         <td class="px-3 py-3 text-center"><?php echo $res['loc'] ?></td>
                         <td class="px-3 py-3 text-center">
-                            <a href="edit.php?id=<?php echo $res['ID']; ?>" class="btn btn-sm btn-warning mx-1">
+                            <a href="#" class="btn btn-sm btn-warning mx-1 edit_event">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -202,9 +251,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
     </div>
 </div>
 
+<!-- jQuery (required for Bootstrap's JavaScript components) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-
+<!-- Bootstrap JavaScript Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     
 </body>
 </html>
+<script>
+     $(document).ready(function () {
+        $('.edit_event').click(function (e) {
+            e.preventDefault();
+
+            
+            var event_id = $(this).closest('tr').find('.event_id').text();
+            console.log(event_id);
+
+            $.ajax({
+                method: "POST",
+                url: "code.php",
+                data: {
+                    'edit_deets': true,
+                    'event_id': event_id,
+                },
+                success: function (response){
+                   /* console.log(response); */
+
+                    $.each(response, function (Key, value){
+                        $('.event_id').val(value['ID']);
+                        $('.event_title').val(value['title']);
+                        $('.event_desc').val(value['description']);
+                        $('.event_date').val(value['date']);
+                        $('.event_loc').val(value['loc']);
+                    });
+
+                    /*$('.view_event_deets').html(response);*/
+                    $('#editModalstaticBackdrop').modal('show');
+                }
+            });
+        });
+    });
+
+</script>
