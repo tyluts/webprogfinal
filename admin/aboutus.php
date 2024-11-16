@@ -7,7 +7,10 @@
     <title>Home</title>
 </head>
 <body class="black">
-    <?php include 'adminnav.php'; ?>
+    <div class="container-fluid mb-5">
+        <?php include 'adminnav.php'; ?>
+    </div>
+        
 
 
 
