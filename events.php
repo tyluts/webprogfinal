@@ -177,7 +177,7 @@
                 </p>
             </div>
         </div>
-        <div class="container-fluid  mt-4 mb-5 ">
+        <div class="container-fluid  mt-4 mb-5 px-0">
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">

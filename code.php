@@ -29,8 +29,6 @@ if (isset($_POST['click_deets'])) {
 
     // Close the statement
     $stmt->close();
-} else {
-    echo "No data received";
 }
 
 if (isset($_POST['news_deets'])) {
@@ -58,8 +56,6 @@ if (isset($_POST['news_deets'])) {
 
     // Close the statement
     $stmt->close();
-} else {
-    echo "No data received";
 }
 
 ?>
