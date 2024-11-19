@@ -26,7 +26,7 @@
             </a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="manage_programs.php" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle  text-white " href="manage_programs.php" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-collection me-2"></i>Manage Programs
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
@@ -155,5 +155,6 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

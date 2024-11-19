@@ -25,7 +25,7 @@ $programsResult = $con->query($programsSql);
     width: calc(100% - var(--sidebar-width));
     padding: 1.5rem;
     overflow-x: auto;
-    margin-top: 60px;
+ 
 }
 
 .table-wrapper {

@@ -72,5 +72,34 @@
 </div>
 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script>
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Initializing dropdown...');
+    const dropdownToggle = document.getElementById('programsDropdown');
+    
+    if (!dropdownToggle) {
+        console.error('Dropdown toggle element not found');
+        return;
+    }
+
+    // Initialize dropdown once
+    const dropdown = new bootstrap.Dropdown(dropdownToggle);
+
+    dropdownToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Dropdown clicked');
+        dropdown.toggle();
+    });
+
+    // Debug dropdown state
+    dropdownToggle.addEventListener('shown.bs.dropdown', () => {
+        console.log('Dropdown shown');
+    });
+
+    dropdownToggle.addEventListener('hidden.bs.dropdown', () => {
+        console.log('Dropdown hidden');
+    });
+});
+</script>
 </body>
 </html>

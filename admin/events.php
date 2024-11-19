@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
     width: calc(100% - var(--sidebar-width));
     padding: 1.5rem;
     overflow-x: auto;
-    margin-top: 60px;
+    
 }
 
 .table-wrapper {
