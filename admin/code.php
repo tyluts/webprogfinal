@@ -85,6 +85,19 @@ if (isset($_POST['update_event'])) {
     }
 }
 
+if(isset($_POST['checking_edit_btn'])) {
+    $event_id = $_POST['event_id'];
+    $query = "SELECT * FROM events WHERE ID = '$event_id'";
+    $query_run = mysqli_query($con, $query);
+    
+    if(mysqli_num_rows($query_run) > 0) {
+        while($row = mysqli_fetch_array($query_run)) {
+            echo json_encode(array('status' => 200, 'data' => $row));
+        }
+    }
+}
+
 
 ?>
+
 

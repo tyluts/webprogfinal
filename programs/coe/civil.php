@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../../include/head.php'; ?>
-    <title>Home</title>
+     <?php include '../../include/head.php'; ?>
+    <title>Civil Engineering - LSB</title>
+    <!-- Make sure footer CSS is loaded -->
+ <link rel="stylesheet" href="../../css/colors.css">
+    <link rel="stylesheet" href="../../css/homecss/color.css">
+    <link rel="stylesheet" href="../../css/homecss/footer.css">
+    <link rel="stylesheet" href="../../css/programcss/civil.css">
     <style>
 .custom-carousel-wrapper {
   position: relative;
@@ -16,6 +21,7 @@
   width: 40px; /* Adjust size as needed */
 }
 
+
 .custom-carousel-control.carousel-control-prev {
   left: -50px; /* Adjust this to move the left arrow further out */
 }
@@ -27,7 +33,7 @@
 </style>
 </head>
 <body class="black">
-     <?php include '../navigation.php'; ?>
+         <?php include '../navigation.php'; ?>
   
    
      <section>
@@ -61,7 +67,10 @@
         <?php include '../curriculum.php'; ?>
     </section>
 
-     <?php include '../../include/footer.php'; ?>
+             <div class="footer-wrapper dark-grey">
+        <?php include '../../include/footer.php'; ?>
+    </div>
 
+    
 </body>
 </html>
