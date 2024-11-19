@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once('../config.php');
-/////////update events
+    /////////update events
     if (isset($_POST['edit_deets'])) {
 
         $id = intval($_POST['event_id']);
@@ -22,7 +22,7 @@
             echo 'No announcements found';
         }
     
-        // Close the statement
+
        
     } else {
         echo "No data received";
@@ -57,7 +57,7 @@ if (isset($_POST['update_event'])) {
         }
     }
 
-    // Use the new image path if provided, or keep the existing image
+    
     $update_event = "UPDATE events SET 
                      title = ?, 
                      description = ?, 

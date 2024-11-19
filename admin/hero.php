@@ -1,16 +1,15 @@
-<?php
-    require_once('../config.php');
+<?php 
+require_once('../config.php');
 
-    $carousel_sql = "SELECT * FROM images";
-    $carousel_result = $con->query($carousel_sql);
+$carousel_sql = "SELECT * FROM images";
+$carousel_result = $con->query($carousel_sql);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_form'])) {
-    // Handle image upload
+if (isset($_POST['image_form'])) {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image = $_FILES['image'];
-        $imageName = basename($image['name']); // Get image name
-        $imageTmpPath = $image['tmp_name'];    // Get temporary image path
-        $uploadDir = 'img/';                    // Directory where images will be uploaded
+        $imageName = basename($image['name']); 
+        $imageTmpPath = $image['tmp_name'];    
+        $uploadDir = 'img/';                   
 
         // Ensure the upload directory exists
         if (!file_exists($uploadDir)) {
@@ -19,53 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_form'])) {
 
         // Set the target file path and normalize the file path
         $targetFilePath = $uploadDir . $imageName;
-        $targetFilePath = str_replace('\\', '/', $targetFilePath); // Ensure forward slashes
+        $targetFilePath = str_replace('\\', '/', $targetFilePath); 
 
-        // Move the uploaded image to the target directory
         if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
             // Prepare SQL query to insert the image path into the database
-            $stmt = $con->prepare("INSERT INTO images image_path VALUES (?)");
+            $stmt = $con->prepare("INSERT INTO images (image_path) VALUES (?)");
             $stmt->bind_param("s", $targetFilePath);  // Bind the image path as a string
 
             // Execute the query
             if ($stmt->execute()) {
-                echo "<script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Image uploaded successfully!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.reload(); // Refresh the page
-                        });
-                      </script>";
+                echo "<p style='color: green;'>Image uploaded successfully!</p>";
             } else {
-                echo "<script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Database Error',
-                            text: 'Error: " . $stmt->error . "'
-                        });
-                      </script>";
+                echo "<p style='color: red;'>Database Error: " . $stmt->error . "</p>";
             }
         } else {
-            echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Upload Error',
-                        text: 'Failed to move uploaded file. Please try again.'
-                    });
-                  </script>";
+            echo "<p style='color: red;'>Failed to move uploaded file. Please try again.</p>";
         }
     } else {
-        echo "<script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'File Error',
-                    text: 'Error: " . $_FILES['image']['error'] . "'
-                });
-              </script>";
+        echo "<p style='color: red;'>File Error: " . $_FILES['image']['error'] . "</p>";
     }
 }
 ?>
@@ -73,10 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_form'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../include/head.php'; ?>
-    <link rel="stylesheet" href="../css/admincss/adminnav.css">
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="css/homecss/color.css">
+    <title>Image Upload</title>
 </head>
+
 <body class="black">
     <?php include 'adminnav.php'; ?>
 
@@ -126,11 +101,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_form'])) {
                         <tbody>
                         <?php while($res = mysqli_fetch_assoc($carousel_result)) { ?>
                             <tr>
-                                <td class="px-3 py-3 text-center" ><?php echo $res['ID']?></td>
-                                <td class="px-3 py-3 text-center" ><?php echo $res['image_path']?></td>
+                                <td class="px-3 py-3 text-center" ><?php echo $res['id']?></td>
+                                <td class="px-3 py-3 text-center" >
+                                    <?php if (!empty($res['image_path'])): ?>
+                                        <img src="<?php echo htmlspecialchars($res['image_path']); ?>" alt="News Photo" style="max-width: 100px; max-height: 100px;">
+                                    <?php else: ?>
+                                        No Photo
+                                    <?php endif; ?>
+                                </td>
                                 <td class="px-3 py-3 text-center" ><?php echo $res['uploaded_at']?></td>
                                 <td class="px-3 py-3 text-center">
-                                    <a href="update.php?id=<?php echo  $res['customerID']?>" class="mx-auto">
+                                    <a class="mx-auto">
                                         <i class="bi bi-pencil-square"></i><i class="bi bi-trash"></i>
                                     </a>
                                   
@@ -142,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_form'])) {
                 </div>
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

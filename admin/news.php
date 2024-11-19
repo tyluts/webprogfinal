@@ -2,10 +2,10 @@
     require_once('../config.php');
     $news_sql = "SELECT * FROM posts order by date_posted asc";
     $news_sql_result = $con -> query($news_sql);
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['news_add'])) {
         $title = $_POST['title'];
         $description = $_POST['caption'];
-        $datetime = $_POST['datetime'];
+        $datetime = date('Y-m-d');
        
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             $image = $_FILES['image'];
@@ -24,43 +24,9 @@
                 $stmt->bind_param("ssss", $title, $description, $targetFilePath, $datetime);
     
                 if ($stmt->execute()) {
-                    echo "<script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: 'Event uploaded successfully!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                window.location.reload(); // Refresh the page
-                            });
-                          </script>";
-                } else {
-                    echo "<script>
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Database Error',
-                                text: '" . $stmt->error . "'
-                            });
-                          </script>";
+                    header("Refresh: 1; url=news.php");
                 }
-            } else {
-                echo "<script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Upload Error',
-                            text: 'Failed to move uploaded file.'
-                        });
-                      </script>";
             }
-        } else {
-            echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'File Error',
-                        text: 'Error: " . $_FILES['image']['error'] . "'
-                    });
-                  </script>";
         }
     }
 ?>
@@ -74,7 +40,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
     
@@ -133,12 +102,7 @@
                         <label for="image" class="form-label">Choose Image</label>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="datetime" class="form-label">Date and Time</label>
-                        <input type="date" class="form-control" id="datetime" name="datetime" required>
-                        
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="submit" name="news_add" class="btn btn-primary">Upload</button>
                 </form>
             </div>
     
@@ -157,35 +121,39 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" class="news_id">
+                <form method="POST" enctype="multipart/form-data" action="update_news.php">
+                    <!-- Hidden ID Field -->
+                    <input type="hidden" name="id" class="news_id" value="">
+
+                    <!-- Title Input -->
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control news_title" id="title" name="title" required>
                     </div>
+
+                    <!-- Description Input -->
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control news_desc" id="description" name="caption" rows="3" required></textarea>
+                        <textarea class="form-control news_desc" id="description" name="description" rows="3" required></textarea>
                     </div>
+
+                    <!-- Image Input -->
                     <div class="mb-3">
                         <label for="image" class="form-label">Choose Image</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                        <img id="imagePreview" src="#" alt="Selected Image" style="display: none; width: 100%; margin-top: 10px;" />
                     </div>
-                    <div class="mb-3">
-                        <label for="datetime" class="form-label">Date and Time</label>
-                        <input type="date" class="form-control news_date" id="datetime" name="datetime" required>
-                    </div>
-                    <button type="submit" name="news_update" class="btn btn-primary">Update</button>
+
+                    <!-- Submit Button -->
+                    <button type="submit" name="news_update" class="btn btn-primary w-100">Update</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+
     <!------news edit modal------->
-
-
-
         <div class="container-fluid mt-5 d-flex align-items-center justify-content-center" style="height: calc(100vh - 56px);">
             <div class="card col-12 col-md-8 col-lg-6">
                 <div class="card-body w-100">
@@ -224,7 +192,7 @@
                                     <?php echo $res['date_posted'] !== '0000-00-00' ? htmlspecialchars($res['date_posted']) : 'N/A'; ?>
                                 </td>
                                 <td class="px-3 py-3 text-center">
-                                    <a href="#" class="btn btn-sm btn-warning mx-1 edit_news">
+                                    <a class="btn btn-sm btn-warning mx-1 edit_news">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -243,6 +211,9 @@
                 </div>
             </div>
         </div>
+                <!-- SweetAlert2 JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
@@ -250,45 +221,37 @@
 </html>
 
 <script>
-   $(document).ready(function () {
-    $('.edit_news').click(function (e) {
-        e.preventDefault();
+    $(document).ready(function () {
+        $('.edit_news').click(function (e) {
+            e.preventDefault();
 
-        var news_id = $(this).closest('tr').find('.news_id').text();
+           
+            var news_id = $(this).closest('tr').find('.news_id').text();
+            console.log(news_id); 
+            $.ajax({
+                method: "POST",
+                url: "update_news.php",
+                data: {
+                    'edit_news': true,
+                    'news_id': news_id,
+                },
+                success: function (response) {
+                    console.log(response); 
 
-        console.log(news_id);
+                    
+                    $.each(response, function (key, value) {
+                        $('.news_id').val(value['ID']);
+                        $('.news_title').val(value['title']);
+                        $('.news_desc').val(value['caption']);
+                    });
 
-        $.ajax({
-            method: "POST",
-            url: "update_news.php",
-            data: {
-                'edit_news': true,
-                'news_id': news_id,
-            },
-            dataType: "json",  // Ensures jQuery parses JSON response automatically
-            success: function (response) {
-                if (response.error) {
-                    console.error(response.error); // Log any errors from the PHP side
-                } else {
-                    // Assuming response contains only one record
-                    var news = response[0];
-
-                    $('.news_id').val(news.ID);
-                    $('.news_title').val(news.title);
-                    $('.news_desc').val(news.caption);
-                    $('.news_date').val(news.date_posted);
-
-                    $('#staticBackdropNewsUpdate').modal('show'); // Update modal ID here
+                    $('#staticBackdropNewsUpdate').modal('show');
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error("AJAX Error: " + error);
-            }
+            });
         });
     });
-});
-
 </script>
+
 
 
 

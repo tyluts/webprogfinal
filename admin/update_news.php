@@ -14,40 +14,39 @@ if (isset($_POST['edit_news'])) {
     if ($news_result->num_rows > 0) {
         while ($row = $news_result->fetch_assoc()) {
             array_push($arrayresult, $row);
+            header('Content-Type: application/json');
+            echo json_encode($arrayresult); 
         }
-        header('Content-Type: application/json');
-        echo json_encode($arrayresult); // Send JSON response after the loop
+
     } else {
         echo json_encode(['error' => 'No announcements found']);
     }
 
-    $stmt->close();
 } else {
     echo json_encode(['error' => 'No data received']);
 }
 
-// update_news.php - Update News Record
+
 if (isset($_POST['news_update'])) {
-    $ID = $_POST['id'];
+    $ID = intval($_POST['id']);
     $title = $_POST['title'];
     $description = $_POST['description'];
-    $date = $_POST['datetime'];
+    $date_time = date('Y-m-d');
+    $imagePath = $targetFilePath ?: null;
 
-    $imagePath = null;
-
-    // Image Upload Handling
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image = $_FILES['image'];
+        $uploadDir = 'img/';
         $imageName = basename($image['name']);
         $imageTmpPath = $image['tmp_name'];
-        $uploadDir = 'img/';
-        
         $targetFilePath = $uploadDir . $imageName;
+
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
+
         if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-            $imagePath = $targetFilePath; // Store the path for the database update
+            $imagePath = $targetFilePath;
         } else {
             $_SESSION['status'] = "Image upload failed";
             header('location: news.php');
@@ -55,30 +54,33 @@ if (isset($_POST['news_update'])) {
         }
     }
 
-    // Update query - Corrected syntax
-    $update_event = "UPDATE posts SET 
+    $update_news = "UPDATE posts SET 
                      title = ?, 
                      caption = ?, 
-                     img = COALESCE(?, img), 
+                     photo = COALESCE(?, photo),
                      date_posted = ? 
                      WHERE ID = ?";
                      
-    $stmt = mysqli_prepare($con, $update_event);
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ssssi", $title, $description, $imagePath, $date, $ID);
-        $update_event_run = mysqli_stmt_execute($stmt);
+    $stmt = mysqli_prepare($con, $update_news);
 
-        if ($update_event_run) {
-            $_SESSION['status'] = "Event updated successfully";
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "ssssi", $title, $description, $imagePath, $date_time, $ID);
+
+        $update_news_run = mysqli_stmt_execute($stmt);
+
+        if ($update_news_run) {
+            echo 'successful';
             header('location: news.php');
         } else {
-            $_SESSION['status'] = "Event was not updated successfully";
+            echo 'eeeeeeeeeeeeeeeengggggggg';
             header('location: news.php');
         }
+
         mysqli_stmt_close($stmt);
     } else {
-        $_SESSION['status'] = "Failed to prepare the update query";
+       echo 'sira sql bai';
         header('location: news.php');
     }
 }
+
 ?>

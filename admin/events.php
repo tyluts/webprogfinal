@@ -26,43 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
             $stmt->bind_param("sssss", $targetFilePath, $title, $description, $datetime, $loc);
 
             if ($stmt->execute()) {
-                echo "<script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Event uploaded successfully!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.reload(); // Refresh the page
-                        });
-                      </script>";
-            } else {
-                echo "<script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Database Error',
-                            text: '" . $stmt->error . "'
-                        });
-                      </script>";
-            }
-        } else {
-            echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Upload Error',
-                        text: 'Failed to move uploaded file.'
-                    });
-                  </script>";
-        }
-    } else {
-        echo "<script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'File Error',
-                    text: 'Error: " . $_FILES['image']['error'] . "'
-                });
-              </script>";
+                header("Refresh: 1; url=events.php");
+            } 
+        } 
     }
 }
 ?>
