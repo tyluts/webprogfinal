@@ -7,9 +7,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
     $title = $_POST['social_title'];
     $description = $_POST['social_desc'];
     $icon = $_POST['social_icon'];
+    
+    // Handle image upload
+    $image = '';
+    if(isset($_FILES['social_image']) && $_FILES['social_image']['error'] == 0) {
+        $target_dir = "uploads/social/";
+        if(!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $image = $target_dir . basename($_FILES["social_image"]["name"]);
+        move_uploaded_file($_FILES["social_image"]["tmp_name"], $image);
+    }
 
-    $stmt = $con->prepare("INSERT INTO social_section (social_title, social_desc, social_icon) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $title, $description, $icon);
+    $stmt = $con->prepare("INSERT INTO social_section (social_title, social_desc, social_icon, social_image) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $title, $description, $icon, $image);
 
     if ($stmt->execute()) {
         header("Location: social_section.php?success=1");
@@ -159,22 +170,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
-                        <input type="hidden" name="social_form">
-                        <div class="mb-3">
-                            <label class="form-label">Social Title</label>
-                            <input type="text" class="form-control" name="social_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" name="social_desc" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Icon Class</label>
-                            <input type="text" class="form-control" name="social_icon" required placeholder="fab fa-facebook">
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Social Media</button>
-                    </form>
+                    <form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="social_form">
+    <div class="mb-3">
+        <label class="form-label">Social Title</label>
+        <input type="text" class="form-control" name="social_title" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="social_desc" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Icon Class</label>
+        <input type="text" class="form-control" name="social_icon" required placeholder="fab fa-facebook">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Social Image</label>
+        <input type="file" class="form-control" name="social_image" accept="image/*">
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Add Social Media</button>
+</form>
                 </div>
             </div>
         </div>
@@ -189,22 +204,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="update_social.php">
-                        <input type="hidden" name="id" class="social_id">
-                        <div class="mb-3">
-                            <label class="form-label">Social Title</label>
-                            <input type="text" class="form-control social_title" name="social_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control social_desc" name="social_desc" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Icon Class</label>
-                            <input type="text" class="form-control social_icon" name="social_icon" required>
-                        </div>
-                        <button type="submit" name="update_social" class="btn btn-primary w-100">Update</button>
-                    </form>
+                    <form method="POST" action="update_social.php" enctype="multipart/form-data">
+    <input type="hidden" name="id" class="social_id">
+    <div class="mb-3">
+        <label class="form-label">Social Title</label>
+        <input type="text" class="form-control social_title" name="social_title" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control social_desc" name="social_desc" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Icon Class</label>
+        <input type="text" class="form-control social_icon" name="social_icon" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Social Image</label>
+        <input type="file" class="form-control" name="social_image" accept="image/*">
+        <div id="currentImage" class="mt-2"></div>
+    </div>
+    <button type="submit" name="update_social" class="btn btn-primary w-100">Update</button>
+</form>
                 </div>
             </div>
         </div>
@@ -216,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="5" class="bg-light">
+                            <th colspan="6" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
                                     <h5 class="mb-0">Social Media Links</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -230,6 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
                             <th>Title</th>
                             <th>Description</th>
                             <th>Icon</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -240,6 +261,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
                                 <td><?php echo htmlspecialchars($row['social_title']); ?></td>
                                 <td><?php echo htmlspecialchars($row['social_desc']); ?></td>
                                 <td><i class="<?php echo htmlspecialchars($row['social_icon']); ?>"></i></td>
+                                <td>
+    <?php if(!empty($row['social_image'])): ?>
+        <img src="<?php echo htmlspecialchars($row['social_image']); ?>" alt="Social Image" style="max-width: 100px;">
+    <?php endif; ?>
+</td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-warning mx-1 edit_social">
                                         <i class="bi bi-pencil-square"></i>

@@ -1,3 +1,11 @@
+<?php
+// Pass program ID when including curriculum.php
+$_GET['id'] = 1; // Set to appropriate program ID
+require_once('../../config.php');
+$query = "SELECT * FROM program_info WHERE id = 1";
+$result = $con->query($query);
+$program = $result->fetch_assoc();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,20 +44,20 @@
          <?php include '../navigation.php'; ?>
   
    
-     <section>
-        <div class="col container mt-5 text-center">
-            <div  class="row">
-                <h1  class="red montserrat fw-bold">
-                    Civil Engineering
-                </h1>
-            </div>
-            <div  class="row">
-                <p  class="white hind">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non accusamus obcaecati mollitia. Voluptatem ullam accusantium cumque non nemo doloremque veniam voluptatum? Aperiam laborum incidunt facilis eos deleniti a voluptatum hic.
-                </p>
-            </div>
+<section>
+    <div class="col container mt-5 text-center">
+        <div class="row">
+            <h1 class="red montserrat fw-bold">
+                <?php echo htmlspecialchars($program['program_title'] ); ?>
+            </h1>
         </div>
-    </section>
+        <div class="row">
+            <p class="white hind">
+                <?php echo htmlspecialchars($program['program_desc']);  ?>
+            </p>
+        </div>
+    </div>
+</section>
 
     <?php include '../social.php'; ?>
 
@@ -57,7 +65,7 @@
         <div class="col container-fluid mt-5 text-center">
             <div  class="row">
                 <h1  class="red montserrat fw-bold">
-                    Curriculum
+                    <?php echo htmlspecialchars($program['curriculum_title']); ?>
                 </h1>
             </div>
             <div  class="row">

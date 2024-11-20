@@ -1,30 +1,53 @@
+<?php
+require_once('../../config.php');
+
+// Get program ID from URL
+$program_id = $_GET['id'] ?? 1; // Default to ID 1 if not specified
+
+try {
+    $query = "SELECT curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4 
+              FROM program_info WHERE id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("i", $program_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $program = $result->fetch_assoc();
+
+    // Debug
+    error_log("Program Images for ID $program_id: " . print_r($program, true));
+} catch (Exception $e) {
+    error_log("Error fetching curriculum: " . $e->getMessage());
+    $program = null;
+}
+?>
+
 <div class="container-fluid mx-auto mt-5">
     <div class="row image-grid justify-content-center" style="margin: 0px;">
-        
+        <?php 
+        $years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+        for($i = 1; $i <= 4; $i++): 
+            $image_field = 'curriculum_image' . $i;
+            // Debug image path
+            error_log("Image $i path: " . ($program[$image_field] ?? 'not set'));
+            $image_src = ($program && !empty($program[$image_field])) ? 
+                        "../../admin/" . $program[$image_field] : 
+                        "../../img/frosh.jpg";
+        ?>
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 image-container">
-            <img src="../../img/frosh.jpg" alt="Image 1" class="img-fluid thumbnail" style="height: 150px; width: 100%;" onclick="openFullscreen(this)">
-            <p class="image-title text-white">1st Year</p>
+            <img src="<?php echo htmlspecialchars($image_src); ?>" 
+                 alt="<?php echo $years[$i-1]; ?>" 
+                 class="img-fluid thumbnail" 
+                 style="height: 150px; width: 100%;" 
+                 onclick="openFullscreen(this)">
+            <p class="image-title text-white"><?php echo $years[$i-1]; ?></p>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 image-container">
-            <img src="../../img/frosh.jpg" alt="Image 2" class="img-fluid thumbnail" style="height: 150px; width: 100%;" onclick="openFullscreen(this)">
-            <p class="image-title text-white">2nd Year</p>
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 image-container">
-            <img src="../../img/frosh.jpg" alt="Image 3" class="img-fluid thumbnail" style="height: 150px; width: 100%;" onclick="openFullscreen(this)">
-            <p class="image-title text-white">3rd Year</p>
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 image-container">
-            <img src="../../img/frosh.jpg" alt="Image 4" class="img-fluid thumbnail" style="height: 150px; width: 100%;" onclick="openFullscreen(this)">
-            <p class="image-title text-white"> 4th Year</p>
-        </div>
-      
+        <?php endfor; ?>
     </div>
 </div>
 
-        <div id="fullscreenOverlay" class="overlay" onclick="closeFullscreen()">
+<div id="fullscreenOverlay" class="overlay" onclick="closeFullscreen()">
     <img id="overlayImage" src="" alt="Full-screen view" class="overlay-image">
 </div>
-
 <style>
   .image-title {
     text-align: center;

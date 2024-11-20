@@ -1,57 +1,103 @@
-<div class="container-fluid mt-4 mb-5 ">
-    <div class="row">
-        
-        <!-- First Carousel Column -->
+<?php
+require_once('config.php');
+
+// Function to get programs by ID range
+function getProgramsByRange($con, $startId, $endId) {
+    $sql = "SELECT * FROM department_programs WHERE id BETWEEN ? AND ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("ii", $startId, $endId);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+?>
+
+<style>
+.carousel-outer-controls {
+    position: relative;
+    padding: 0 30px;
+}
+
+.carousel-outer-controls .carousel-control-prev,
+.carousel-outer-controls .carousel-control-next {
+    width: 30px;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    height: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-outer-controls .carousel-control-prev {
+    left: -5px;
+}
+
+.carousel-outer-controls .carousel-control-next {
+    right: -5px;
+}
+
+.program-card {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.card-body {
+    overflow: hidden;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.card-img-top {
+    width: 100%;
+    min-height: 300px; /* Fixed height for consistency */
+    object-fit: cover;
+    object-position: center;
+    border-radius: 18px;
+}
+
+/* Ensure overlay matches image size */
+.position-relative .position-absolute {
+    height: 300px;
+}
+</style>
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="row justify-content-center">
+        <?php
+        // First Column (IDs 1-2)
+        $firstColumn = getProgramsByRange($con, 1, 2);
+        ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-            <div id="carouselExampleCaptions1" class="carousel slide carousel-outer-controls " data-bs-ride="carousel">
-                <!-- Indicators -->
-                
-<!-- Carousel Inner -->
-<div class="carousel-inner mx-auto" style="border-radius: 18px; width: 100%;">
-    <!-- First Slide -->
-    <div class="carousel-item active position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">ENGINEERING</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 1">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Civil Engineering</h5>
-                <a href="programs/coe/civil.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Second Slide -->
-    <div class="carousel-item position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">ENGINEERING</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 2">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Electrical Engineering</h5>
-                <a href="programs/coe/electrical.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-                
-                <!-- Carousel Controls -->
+            <div id="carouselExampleCaptions1" class="carousel slide carousel-outer-controls" data-bs-ride="carousel">
+                <div class="carousel-inner mx-auto" style="border-radius: 18px;">
+                    <?php foreach($firstColumn as $index => $program) { ?>
+                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?> position-relative">
+                            <div class="card dark-grey white program-card">
+                                <h1 class="text-center fs-5 p-2 text-white position-relative">
+                                    <?php echo htmlspecialchars($program['department_title']); ?>
+                                </h1>
+                                <div class="position-relative">
+                                    <img src="admin/<?php echo !empty($program['department_image']) ? 
+                                        htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
+                                        class="card-img-top" alt="Department Image">
+                                    <div class="position-absolute top-0 start-0 w-100 h-100" 
+                                         style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <h5 class="card-title mb-2 text-white">
+                                        <?php echo htmlspecialchars($program['course_title']); ?>
+                                    </h5>
+                                    <a href="<?php echo $program['id'] == 1 ? 'programs/coe/civil.php' : 'programs/coe/electrical.php'; ?>" class="btn bg-red text-white">
+    <?php echo htmlspecialchars($program['button_text']); ?>
+</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -62,55 +108,41 @@
                 </button>
             </div>
         </div>
-        
-        <!-- Second Carousel Column -->
+
+        <?php
+        // Second Column (IDs 3-4)
+        $secondColumn = getProgramsByRange($con, 3, 4);
+        ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div id="carouselExampleCaptions2" class="carousel slide carousel-outer-controls" data-bs-ride="carousel">
-                <!-- Indicators -->
-                
-              <div class="carousel-inner mx-auto" style="border-radius: 18px; width: 100%;">
-    <!-- First Slide -->
-    <div class="carousel-item active position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">COMPUTER STUDIES</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 1">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Information Technology</h5>
-                <a href="programs/ccs/it.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Second Slide -->
-    <div class="carousel-item position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">COMPUTER STUDIES</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 2">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Associate in Computer Technology</h5>
-                <a href="programs/ccs/act.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-</div>
-                
-                <!-- Carousel Controls -->
+                <div class="carousel-inner mx-auto" style="border-radius: 18px;">
+                    <?php foreach($secondColumn as $index => $program) { ?>
+                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?> position-relative">
+                            <div class="card dark-grey white program-card">
+                                <h1 class="text-center fs-5 p-2 text-white position-relative">
+                                    <?php echo htmlspecialchars($program['department_title']); ?>
+                                </h1>
+                                <div class="position-relative">
+                                    <img src="admin/<?php echo !empty($program['department_image']) ? 
+                                        htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
+                                        class="card-img-top" alt="Department Image">
+                                    <div class="position-absolute top-0 start-0 w-100 h-100" 
+                                         style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <h5 class="card-title mb-2 text-white">
+                                        <?php echo htmlspecialchars($program['course_title']); ?>
+                                    </h5>
+<!-- For second column (IDs 3-4) update button to: -->
+<a href="<?php echo $program['id'] == 3 ? 'programs/ccs/it.php' : 'programs/ccs/act.php'; ?>" class="btn bg-red text-white">
+    <?php echo htmlspecialchars($program['button_text']); ?>
+</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -121,56 +153,40 @@
                 </button>
             </div>
         </div>
-        
-        <!-- Third Carousel Column -->
+
+        <?php
+        // Third Column (IDs 5-6)
+        $thirdColumn = getProgramsByRange($con, 5, 6);
+        ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div id="carouselExampleCaptions3" class="carousel slide carousel-outer-controls" data-bs-ride="carousel">
-                <!-- Indicators -->
-                
-                
-                <!-- Carousel Inner -->
-               <div class="carousel-inner mx-auto" style="border-radius: 18px; width: 100%;">
-    <!-- First Slide -->
-    <div class="carousel-item active position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">BUSINESS ADMINISTRATION</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 1">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Business</h5>
-                <a href="programs/cba/business.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Second Slide -->
-    <div class="carousel-item position-relative">
-        <div class="card dark-grey white" style="width: 100%; border-radius: 18px; overflow: hidden;">
-            <h1 class="text-center fs-4 p-3 text-white position-relative">BUSINESS ADMINISTRATION</h1>
-            
-            <!-- Image with Dark Overlay -->
-            <div class="position-relative">
-                <img src="img/frosh.jpg" class="card-img-top" alt="Nature Image 2">
-                <!-- Dark Mask Overlay on Image -->
-                <div class="position-absolute top-0 start-0 w-100 h-100" 
-                     style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;"></div>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title m-3 text-white">Accounting</h5>
-                <a href="programs/cba/accountant.php" class="btn bg-red text-white m-3">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-</div>
-                <!-- Carousel Controls -->
+                <div class="carousel-inner mx-auto" style="border-radius: 18px;">
+                    <?php foreach($thirdColumn as $index => $program) { ?>
+                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?> position-relative">
+                            <div class="card dark-grey white program-card">
+                                <h1 class="text-center fs-5 p-2 text-white position-relative">
+                                    <?php echo htmlspecialchars($program['department_title']); ?>
+                                </h1>
+                                <div class="position-relative">
+                                    <img src="admin/<?php echo !empty($program['department_image']) ? 
+                                        htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
+                                        class="card-img-top" alt="Department Image">
+                                    <div class="position-absolute top-0 start-0 w-100 h-100" 
+                                         style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <h5 class="card-title mb-2 text-white">
+                                        <?php echo htmlspecialchars($program['course_title']); ?>
+                                    </h5>
+<a href="<?php echo $program['id'] == 5 ? 'programs/cba/accountant.php' : 'programs/cba/business.php'; ?>" class="btn bg-red text-white">
+    <?php echo htmlspecialchars($program['button_text']); ?>
+</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions3" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -181,6 +197,5 @@
                 </button>
             </div>
         </div>
-
     </div>
 </div>

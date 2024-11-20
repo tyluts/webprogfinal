@@ -6,28 +6,40 @@ $programSqlResult = $con->query($programSql);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
     $program_title = $_POST['program_title'];
     $program_desc = $_POST['program_desc'];
-    $curriculum_title = $_POST['curriculum_title'];
-    $curriculum_image_title = $_POST['curriculum_image_title'];
 
-    if (isset($_FILES['curriculum_image']) && $_FILES['curriculum_image']['error'] == 0) {
-        $image = $_FILES['curriculum_image'];
-        $imageName = basename($image['name']);
-        $imageTmpPath = $image['tmp_name'];
-        $uploadDir = 'img/curriculum/';
+    // Handle multiple images
+    $images = [];
+    for($i = 1; $i <= 4; $i++) {
+        $field_name = 'curriculum_image' . ($i == 1 ? '' : $i);
+        if (isset($_FILES[$field_name]) && $_FILES[$field_name]['error'] == 0) {
+            $image = $_FILES[$field_name];
+            $imageName = time() . '_' . basename($image['name']);
+            $uploadDir = 'img/curriculum/';
+            $targetFilePath = $uploadDir . $imageName;
 
-        $targetFilePath = $uploadDir . $imageName;
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
 
-        if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-            $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, curriculum_title, curriculum_image_title, curriculum_image) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $program_title, $program_desc, $curriculum_title, $curriculum_image_title, $targetFilePath);
-
-            if ($stmt->execute()) {
-                header("Refresh: 1; url=programs_info.php");
+            if (move_uploaded_file($image['tmp_name'], $targetFilePath)) {
+                $images[$field_name] = $targetFilePath;
             }
         }
+    }
+
+    $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", 
+        $program_title, 
+        $program_desc, 
+        $images['curriculum_image'] ?? null,
+        $images['curriculum_image2'] ?? null,
+        $images['curriculum_image3'] ?? null,
+        $images['curriculum_image4'] ?? null
+    );
+
+    if ($stmt->execute()) {
+        header("Location: program_info.php");
+        exit();
     }
 }
 ?>
@@ -35,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <head>
    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -162,6 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
 
     </style>
 </head>
+</head>
 <body class="black">
     <?php include 'adminnav.php'; ?>
 
@@ -184,18 +198,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <label class="form-label">Program Description</label>
                             <textarea class="form-control" name="program_desc" rows="3" required></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Title</label>
-                            <input type="text" class="form-control" name="curriculum_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Image Title</label>
-                            <input type="text" class="form-control" name="curriculum_image_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Image</label>
-                            <input type="file" class="form-control" name="curriculum_image" accept="image/*" required>
-                        </div>
+                        <?php for($i = 1; $i <= 4; $i++) : ?>
+                            <div class="mb-3">
+                                <label class="form-label">Curriculum Image <?php echo $i; ?></label>
+                                <input type="file" class="form-control" 
+                                       name="curriculum_image<?php echo $i > 1 ? $i : ''; ?>" 
+                                       accept="image/*" required>
+                            </div>
+                        <?php endfor; ?>
                         <button type="submit" class="btn btn-primary w-100">Add Program</button>
                     </form>
                 </div>
@@ -222,19 +232,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <label class="form-label">Program Description</label>
                             <textarea class="form-control program_desc" name="program_desc" rows="3" required></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Title</label>
-                            <input type="text" class="form-control curriculum_title" name="curriculum_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Image Title</label>
-                            <input type="text" class="form-control curriculum_image_title" name="curriculum_image_title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Curriculum Image</label>
-                            <input type="file" class="form-control" name="curriculum_image" accept="image/*">
-                            <img id="imagePreview" src="#" alt="Current Image" style="max-width: 100%; margin-top: 10px; display: none;">
-                        </div>
+                        <?php for($i = 1; $i <= 4; $i++) : ?>
+                            <div class="mb-3">
+                                <label class="form-label">Curriculum Image <?php echo $i; ?></label>
+                                <input type="file" class="form-control" 
+                                       name="curriculum_image<?php echo $i > 1 ? $i : '1'; ?>" 
+                                       accept="image/*">
+                                <img id="imagePreview<?php echo $i; ?>" src="#" 
+                                     class="mt-2 w-100" style="display: none;">
+                            </div>
+                        <?php endfor; ?>
                         <button type="submit" name="update_program" class="btn btn-primary w-100">Update Program</button>
                     </form>
                 </div>
@@ -242,6 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="main-container">
         <div class="table-wrapper">
             <div class="table-responsive">
@@ -261,26 +269,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <th>ID</th>
                             <th>Program Title</th>
                             <th>Description</th>
-                            <th>Curriculum Title</th>
-                            <th>Image Title</th>
-                            <th>Image</th>
+                            <th>Curriculum Images</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while($row = mysqli_fetch_assoc($programSqlResult)) { ?>
                             <tr>
-                                <td class="program_id"  data-label="ID"><?php echo $row['id']; ?></td>
-                                <td  data-label="Program Title"><?php echo htmlspecialchars($row['program_title']); ?></td>
-                                <td  data-label="Description"><?php echo htmlspecialchars($row['program_desc']); ?></td>
-                                <td  data-label="Curriculum Title"><?php echo htmlspecialchars($row['curriculum_title']); ?></td>
-                                <td  data-label="Image Title"><?php echo htmlspecialchars($row['curriculum_image_title']); ?></td>
-                                <td  data-label="Actions">
-                                    <?php if (!empty($row['curriculum_image'])): ?>
-                                        <img src="<?php echo htmlspecialchars($row['curriculum_image']); ?>" alt="Curriculum" style="max-width: 100px;">
-                                    <?php else: ?>
-                                        No Image
-                                    <?php endif; ?>
+                                <td class="program_id" data-label="ID"><?php echo $row['id']; ?></td>
+                                <td data-label="Program Title"><?php echo htmlspecialchars($row['program_title']); ?></td>
+                                <td data-label="Description"><?php echo htmlspecialchars($row['program_desc']); ?></td>
+                                <td data-label="Curriculum Images">
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <?php for($i = 1; $i <= 4; $i++) : 
+                                            $img_field = 'curriculum_image' . ($i == 1 ? '1' : $i);
+                                            if(!empty($row[$img_field])) : ?>
+                                                <img src="<?php echo htmlspecialchars($row[$img_field]); ?>" 
+                                                     alt="Curriculum <?php echo $i; ?>" 
+                                                     style="max-width: 50px; height: auto;">
+                                        <?php endif; endfor; ?>
+                                    </div>
                                 </td>
                                 <td>
                                     <a class="btn btn-sm btn-warning mx-1 edit_program">
@@ -288,7 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                                     </a>
                                     <a href="delete_program_info.php?id=<?php echo $row['id']; ?>" 
                                        class="btn btn-sm btn-danger mx-1" 
-                                       onclick="return confirm('Are you sure you want to delete this program?');">
+                                       onclick="return confirm('Are you sure?');">
                                         <i class="bi bi-trash3"></i>
                                     </a>
                                 </td>
@@ -321,11 +329,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                     $('.program_id').val(data.id);
                     $('.program_title').val(data.program_title);
                     $('.program_desc').val(data.program_desc);
-                    $('.curriculum_title').val(data.curriculum_title);
-                    $('.curriculum_image_title').val(data.curriculum_image_title);
-                    if(data.curriculum_image) {
-                        $('#imagePreview').attr('src', data.curriculum_image).show();
+                    
+                    // Show existing images
+                    for(var i = 1; i <= 4; i++) {
+                        var imgField = 'curriculum_image' + (i == 1 ? '1' : i);
+                        if(data[imgField]) {
+                            $('#imagePreview' + i)
+                                .attr('src', data[imgField])
+                                .show();
+                        }
                     }
+                    
                     $('#editProgramModal').modal('show');
                 }
             });

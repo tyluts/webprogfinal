@@ -2,41 +2,24 @@
 require_once('../config.php');
 
 if(isset($_GET['id'])) {
-    $id = $_GET['id'];
+    // Get image path first
+    $stmt = $con->prepare("SELECT social_image FROM social_section WHERE id = ?");
+    $stmt->bind_param("i", $_GET['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
     
-    // First check if record exists
-    $checkSql = "SELECT id FROM social_section WHERE id = ?";
-    $checkStmt = $con->prepare($checkSql);
-    $checkStmt->bind_param("i", $id);
-    $checkStmt->execute();
-    $result = $checkStmt->get_result();
-    
-    if($result->num_rows > 0) {
-        // Record exists, proceed with deletion
-        $sql = "DELETE FROM social_section WHERE id = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("i", $id);
-        
-        if($stmt->execute()) {
-            // Success - redirect with success message
-            header("Location: social_section.php?delete=success");
-            exit();
-        } else {
-            // Database error
-            header("Location: social_section.php?delete=error&message=".urlencode($con->error));
-            exit();
-        }
-    } else {
-        // Record not found
-        header("Location: social_section.php?delete=error&message=record_not_found");
-        exit();
+    // Delete image file if exists
+    if(!empty($row['social_image']) && file_exists($row['social_image'])) {
+        unlink($row['social_image']);
     }
-} else {
-    // No ID provided
-    header("Location: social_section.php?delete=error&message=no_id");
-    exit();
+    
+    // Delete record
+    $stmt = $con->prepare("DELETE FROM social_section WHERE id = ?");
+    $stmt->bind_param("i", $_GET['id']);
+    
+    if($stmt->execute()) {
+        header("Location: social_section.php?success=3");
+    }
 }
-
-// Close database connection
-
 ?>

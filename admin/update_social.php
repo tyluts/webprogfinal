@@ -3,26 +3,44 @@ require_once('../config.php');
 
 if(isset($_POST['get_social'])) {
     $id = $_POST['social_id'];
-    $sql = "SELECT * FROM social_section WHERE id = ?";
-    $stmt = $con->prepare($sql);
+    $query = "SELECT * FROM social_section WHERE id = ?";
+    $stmt = $con->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
-    echo json_encode($result->fetch_assoc());
+    $data = $result->fetch_assoc();
+    echo json_encode($data);
     exit();
 }
 
 if(isset($_POST['update_social'])) {
     $id = $_POST['id'];
     $title = $_POST['social_title'];
-    $desc = $_POST['social_desc'];
+    $description = $_POST['social_desc'];
     $icon = $_POST['social_icon'];
     
-    $sql = "UPDATE social_section SET social_title=?, social_desc=?, social_icon=? WHERE id=?";
-    $stmt = $con->prepare($sql);
-    $stmt->bind_param("sssi", $title, $desc, $icon, $id);
+    // Handle image upload
+    $image_sql = "";
+    $params = "sssi";
+    $values = [$title, $description, $icon, $id];
+    
+    if(isset($_FILES['social_image']) && $_FILES['social_image']['error'] == 0) {
+        $target_dir = "uploads/social/";
+        if(!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $image = $target_dir . basename($_FILES["social_image"]["name"]);
+        move_uploaded_file($_FILES["social_image"]["tmp_name"], $image);
+        $image_sql = ", social_image = ?";
+        $params = "ssssi";
+        $values = [$title, $description, $icon, $image, $id];
+    }
+
+    $stmt = $con->prepare("UPDATE social_section SET social_title = ?, social_desc = ?, social_icon = ?" . $image_sql . " WHERE id = ?");
+    $stmt->bind_param($params, ...$values);
     
     if($stmt->execute()) {
-        header("Location: social_section.php?update=success");
+        header("Location: social_section.php?success=2");
     }
 }
+?>

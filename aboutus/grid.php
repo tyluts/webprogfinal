@@ -1,9 +1,42 @@
+<?php
+require_once 'config.php';
+
+// Fetch facilities data
+$query = "SELECT * FROM facilities_section WHERE id = 4";
+$result = mysqli_query($con, $query);
+$facility = mysqli_fetch_assoc($result);
+
+// Set default values if no data found
+if (!$facility) {
+    $facility = [
+        'facility_title' => 'Our Facilities',
+        'facility_desc' => 'View our state-of-the-art facilities',
+        'facility_image1' => 'img/frosh.jpg',
+        'facility_image2' => 'img/frosh.jpg',
+        'facility_image3' => 'img/frosh.jpg',
+        'facility_image4' => 'img/frosh.jpg',
+        'facility_image5' => 'img/frosh.jpg'
+    ];
+}
+?>
+
 <div class="container-fluid my-4">
+    <!-- Facility Title and Description -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="montserrat red fs-1 fw-bold"><?php echo htmlspecialchars($facility['facility_title']); ?></h2>
+            <p class="hind white"><?php echo htmlspecialchars($facility['facility_desc']); ?></p>
+        </div>
+    </div>
+
     <!-- Top row with one large image -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="position-relative">
-                <img src="img/frosh.jpg" alt="Computer Laboratory" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)"
+                <img src="admin/<?php echo htmlspecialchars($facility['facility_image1']); ?>" 
+                     alt="<?php echo htmlspecialchars($facility['facility_title']); ?>" 
+                     class="grid-image img-fluid w-100" 
+                     onclick="openFullscreen(this)"
                      style="height: auto; max-height: 400px; object-fit: cover;">
             </div>
         </div>
@@ -11,18 +44,17 @@
 
     <!-- Bottom row with smaller images -->
     <div class="row g-3">
-        <div class="col-6 col-md-3 col-lg-3">
-            <img src="img/frosh.jpg" alt="Lab Image 1" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
-        </div>
-        <div class="col-6 col-md-3 col-lg-3">
-            <img src="img/frosh.jpg" alt="Lab Image 2" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
-        </div>
-        <div class="col-6 col-md-3 col-lg-3">
-            <img src="img/frosh.jpg" alt="Lab Image 3" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
-        </div>
-        <div class="col-6 col-md-3 col-lg-3">
-            <img src="img/frosh.jpg" alt="Lab Image 4" class="grid-image img-fluid w-100"  onclick="openFullscreen(this)" style="object-fit: cover; max-height: 200px;">
-        </div>
+        <?php for($i = 2; $i <= 5; $i++) { 
+            $image_key = 'facility_image' . $i;
+        ?>
+            <div class="col-6 col-md-3 col-lg-3">
+                <img src="admin/<?php echo htmlspecialchars($facility[$image_key]); ?>" 
+                     alt="<?php echo htmlspecialchars($facility['facility_title']) . ' Image ' . $i; ?>" 
+                     class="grid-image img-fluid w-100" 
+                     onclick="openFullscreen(this)"
+                     style="object-fit: cover; max-height: 200px;">
+            </div>
+        <?php } ?>
     </div>
 </div>
 

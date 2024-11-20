@@ -9,11 +9,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
     $vision_title = $_POST['vision_title'];
     $vision_desc = $_POST['vision_desc'];
 
-    $stmt = $con->prepare("INSERT INTO aboutus_section (mission_title, mission_desc, vision_title, vision_desc) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $mission_title, $mission_desc, $vision_title, $vision_desc);
+    // Handle mission image
+    if (isset($_FILES['mission_image']) && $_FILES['mission_image']['error'] == 0) {
+        $image = $_FILES['mission_image'];
+        $imageName = basename($image['name']);
+        $imageTmpPath = $image['tmp_name'];
+        $uploadDir = 'uploads/';
 
-    if ($stmt->execute()) {
-        header("Location: aboutus_section.php?success=1");
+        $mission_image = $uploadDir . time() . '_' . $imageName;
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        if (move_uploaded_file($imageTmpPath, $mission_image)) {
+            // Handle vision image
+            if (isset($_FILES['vision_image']) && $_FILES['vision_image']['error'] == 0) {
+                $vimage = $_FILES['vision_image'];
+                $vimageName = basename($vimage['name']);
+                $vimageTmpPath = $vimage['tmp_name'];
+                
+                $vision_image = $uploadDir . time() . '_' . $vimageName;
+                move_uploaded_file($vimageTmpPath, $vision_image);
+
+                // Insert into database
+                $stmt = $con->prepare("INSERT INTO aboutus_section (mission_title, mission_desc, mission_image, vision_title, vision_desc, vision_image) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssss", $mission_title, $mission_desc, $mission_image, $vision_title, $vision_desc, $vision_image);
+
+                if ($stmt->execute()) {
+                    header("Refresh: 1; url=aboutus_section.php");
+                }
+            }
+        }
     }
 }
 ?>
@@ -148,6 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
 
     </style>
 </head>
+
 <body class="black">
     <?php include 'adminnav.php'; ?>
 
@@ -156,11 +183,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add About Us Content</h5>
+                    <h5 class="modal-title">Add About Us Section</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="aboutus_form">
                         <div class="mb-3">
                             <label class="form-label">Mission Title</label>
@@ -171,6 +198,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                             <textarea class="form-control" name="mission_desc" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Mission Image</label>
+                            <input type="file" class="form-control" name="mission_image" accept="image/*" required>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Vision Title</label>
                             <input type="text" class="form-control" name="vision_title" required>
                         </div>
@@ -178,7 +209,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                             <label class="form-label">Vision Description</label>
                             <textarea class="form-control" name="vision_desc" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Content</button>
+                        <div class="mb-3">
+                            <label class="form-label">Vision Image</label>
+                            <input type="file" class="form-control" name="vision_image" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add About Us Section</button>
                     </form>
                 </div>
             </div>
@@ -186,15 +221,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
     </div>
 
     <!-- Edit About Us Modal -->
-    <div class="modal fade" id="editAboutUsModal" tabindex="-1">
+    <div class="modal fade" id="editAboutUsModal" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit About Us</h5>
+                    <h5 class="modal-title">Edit About Us Section</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="update_aboutus.php">
+                    <form method="POST" enctype="multipart/form-data" action="update_aboutus.php">
                         <input type="hidden" name="id" class="aboutus_id">
                         <div class="mb-3">
                             <label class="form-label">Mission Title</label>
@@ -205,6 +240,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                             <textarea class="form-control aboutus_mission_desc" name="mission_desc" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Mission Image</label>
+                            <input type="file" class="form-control" name="mission_image" accept="image/*">
+                            <img class="aboutus_mission_image_preview mt-2 w-100" style="display: none;">
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Vision Title</label>
                             <input type="text" class="form-control aboutus_vision_title" name="vision_title" required>
                         </div>
@@ -212,24 +252,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                             <label class="form-label">Vision Description</label>
                             <textarea class="form-control aboutus_vision_desc" name="vision_desc" rows="3" required></textarea>
                         </div>
-                        <button type="submit" name="update_aboutus" class="btn btn-primary w-100">Update</button>
+                        <div class="mb-3">
+                            <label class="form-label">Vision Image</label>
+                            <input type="file" class="form-control" name="vision_image" accept="image/*">
+                            <img class="aboutus_vision_image_preview mt-2 w-100" style="display: none;">
+                        </div>
+                        <button type="submit" name="update_aboutus" class="btn btn-primary w-100">Update About Us Section</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="main-container">
         <div class="table-wrapper">
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="6" class="bg-light">
+                            <th colspan="8" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
-                                    <h5 class="mb-0">About Us Content</h5>
+                                    <h5 class="mb-0">About Us Sections</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                        Add Content
+                                        Add About Us Section
                                     </button>
                                 </div>
                             </th>
@@ -238,8 +284,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                             <th>ID</th>
                             <th>Mission Title</th>
                             <th>Mission Description</th>
+                            <th>Mission Image</th>
                             <th>Vision Title</th>
                             <th>Vision Description</th>
+                            <th>Vision Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -249,15 +297,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                                 <td class="aboutus_id"><?php echo $row['id']; ?></td>
                                 <td><?php echo htmlspecialchars($row['mission_title']); ?></td>
                                 <td><?php echo htmlspecialchars($row['mission_desc']); ?></td>
+                                <td>
+                                    <?php if(!empty($row['mission_image'])): ?>
+                                        <img src="<?php echo htmlspecialchars($row['mission_image']); ?>" alt="Mission Image" style="max-width: 100px;">
+                                    <?php else: ?>
+                                        No Image
+                                    <?php endif; ?>
+                                </td>
                                 <td><?php echo htmlspecialchars($row['vision_title']); ?></td>
                                 <td><?php echo htmlspecialchars($row['vision_desc']); ?></td>
-                                <td class="text-center">
-                                    <a class="btn btn-sm btn-warning mx-1 edit_aboutus">
+                                <td>
+                                    <?php if(!empty($row['vision_image'])): ?>
+                                        <img src="<?php echo htmlspecialchars($row['vision_image']); ?>" alt="Vision Image" style="max-width: 100px;">
+                                    <?php else: ?>
+                                        No Image
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning mx-1 edit-aboutus" data-id="<?php echo $row['id']; ?>">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <a href="delete_aboutus.php?id=<?php echo $row['id']; ?>" 
-                                       class="btn btn-sm btn-danger mx-1" 
-                                       onclick="return confirm('Are you sure?');">
+                                       class="btn btn-sm btn-danger mx-1"
+                                       onclick="return confirm('Are you sure you want to delete this section?');">
                                         <i class="bi bi-trash3"></i>
                                     </a>
                                 </td>
@@ -269,13 +331,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.edit_aboutus').click(function(e) {
+            $('.edit-aboutus').click(function(e) {
                 e.preventDefault();
-                var id = $(this).closest('tr').find('.aboutus_id').text();
+                var id = $(this).data('id');
                 
                 $.ajax({
                     method: "POST",
@@ -291,6 +354,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['aboutus_form'])) {
                         $('.aboutus_mission_desc').val(data.mission_desc);
                         $('.aboutus_vision_title').val(data.vision_title);
                         $('.aboutus_vision_desc').val(data.vision_desc);
+                        
+                        if(data.mission_image) {
+                            $('.aboutus_mission_image_preview').attr('src', data.mission_image).show();
+                        }
+                        if(data.vision_image) {
+                            $('.aboutus_vision_image_preview').attr('src', data.vision_image).show();
+                        }
+                        
                         $('#editAboutUsModal').modal('show');
                     }
                 });

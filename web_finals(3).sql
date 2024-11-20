@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 04:41 PM
+-- Generation Time: Nov 20, 2024 at 09:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -32,16 +32,20 @@ CREATE TABLE `aboutus_section` (
   `mission_title` varchar(255) NOT NULL,
   `mission_desc` text NOT NULL,
   `vision_title` varchar(255) NOT NULL,
-  `vision_desc` text NOT NULL
+  `vision_desc` text NOT NULL,
+  `mission_image` varchar(255) NOT NULL DEFAULT 'img/default.jpg',
+  `vision_image` varchar(255) NOT NULL DEFAULT 'img/default.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aboutus_section`
 --
 
-INSERT INTO `aboutus_section` (`id`, `mission_title`, `mission_desc`, `vision_title`, `vision_desc`) VALUES
-(1, 'Our Mission', 'To provide exceptional education and foster intellectual growth through innovative teaching, research, and community engagement. We are committed to developing well-rounded individuals who contribute positively to society through academic excellence, critical thinking, and ethical leadership.', '31231212', 'To be a leading institution of higher learning recognized globally for academic excellence, innovative research, and producing graduates who are prepared to address the challenges of tomorrow. We aspire to create an inclusive environment that promotes creativity, diversity, and sustainable development.'),
-(4, 'dasd', 'dsad', 'dasd', 'dasdas');
+INSERT INTO `aboutus_section` (`id`, `mission_title`, `mission_desc`, `vision_title`, `vision_desc`, `mission_image`, `vision_image`) VALUES
+(1, 'Our Mission', 'To provide exceptional education and foster intellectual growth through innovative teaching, research, and community engagement. We are committed to developing well-rounded individuals who contribute positively to society through academic excellence, critical thinking, and ethical leadership.', '31231212', 'To be a leading institution of higher learning recognized globally for academic excellence, innovative research, and producing graduates who are prepared to address the challenges of tomorrow. We aspire to create an inclusive environment that promotes creativity, diversity, and sustainable development.', 'uploads/1732121773_graduation.jpg', 'uploads/1732121773_coac.jpg'),
+(8, 'dasd', 'dasdas', 'dasd', 'dasd', 'uploads/1732121221_2.jpg', 'uploads/1732121221_7.jpg'),
+(9, 'dasd', 'dasda', 'dasda', 'dasds', 'uploads/1732121402_3.jpg', 'uploads/1732121402_6.jpg'),
+(10, 'dsad', 'dasd', 'dasd', 'dasdas', 'uploads/1732121754_recognition.jpg', 'uploads/1732121754_assessment_form.jpg');
 
 -- --------------------------------------------------------
 
@@ -53,24 +57,25 @@ CREATE TABLE `department_programs` (
   `id` int(11) NOT NULL,
   `department_title` varchar(255) NOT NULL,
   `course_title` varchar(255) NOT NULL,
-  `button_text` varchar(50) NOT NULL
+  `button_text` varchar(50) NOT NULL,
+  `department_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `department_programs`
 --
 
-INSERT INTO `department_programs` (`id`, `department_title`, `course_title`, `button_text`) VALUES
-(1, 'College of Engineering', 'BS in Computer Engineering', 'asd'),
-(2, 'College of Engineering', 'BS in Civil Engineering', 'Learn More'),
-(3, 'College of Engineering', 'BS in Electrical Engineering', 'Enroll Today'),
-(4, 'College of Business', 'BS in Business Administration', 'Register Now'),
-(5, 'College of Business', 'BS in Accountancy', 'View Details'),
-(6, 'College of Arts and Sciences', 'BA in Psychology', 'Discover More'),
-(7, 'College of Arts and Sciences', 'BA in Communication', 'Join Us'),
-(8, 'College of Education', 'Bachelor in Secondary Education', 'Start Here'),
-(11, 'dasd', 'das', 'dasd'),
-(12, 'das', 'das', 'das');
+INSERT INTO `department_programs` (`id`, `department_title`, `course_title`, `button_text`, `department_image`) VALUES
+(1, 'dasd', 'dasd', 'dasda', 'img/departments/graduation.jpg'),
+(2, 'College of Engineering', 'BS in Civil Engineering', 'Learn More', 'img/departments/coc.jpg'),
+(3, 'College of Engineering', 'BS in Electrical Engineering', 'Enroll Today', 'img/departments/UbuntuServer_Ballon.PNG'),
+(4, 'College of Business', 'BS in Business Administration', 'Register Now', 'img/departments/message.jpg'),
+(5, 'College of Business', 'BS in Accountancy', 'View Details', 'img/departments/lyceum3.png'),
+(6, 'College of Arts and Sciences', 'BA in Psychology', 'Discover More', 'img/departments/accountancy1.jpeg'),
+(7, 'College of Arts and Sciences', 'BA in Communication', 'Join Us', NULL),
+(11, 'dasd', 'das', 'dasd', NULL),
+(12, 'das', 'das', 'das', NULL),
+(14, 'dsad', 'dasd', 'dasd', 'img/departments/frosh.jpg');
 
 -- --------------------------------------------------------
 
@@ -147,10 +152,10 @@ CREATE TABLE `hero_section` (
 --
 
 INSERT INTO `hero_section` (`id`, `hero_img`, `hero_title`, `hero_desc`, `button_text`) VALUES
-(1, 'img/hero/campus1.jpg', 'Welcome to Our University', 'Empowering minds, shaping futures. Join our community of innovative learners and world-class educators.', 'Learn More'),
-(2, 'img/hero/students.jpg', 'Discover Your Potential', 'Access quality education, state-of-the-art facilities, and diverse learning opportunities.', 'Apply Now'),
-(3, 'img/hero/library.jpg', 'Excellence in Education', 'Experience academic excellence with our comprehensive programs and dedicated faculty.', 'Explore Programs'),
-(4, 'img/hero/graduation.jpg', 'Your Future Starts Here', 'Join thousands of successful alumni who started their journey with us.', 'Get Started');
+(1, 'img/hero/alumni.jpg', 'Welcome to Our University', 'Empowering minds, shaping futures. Join our community of innovative learners and world-class educators.', 'Learn More'),
+(2, 'img/hero/college.jpg', 'Discover Your Potential', 'Access quality education, state-of-the-art facilities, and diverse learning opportunities.', 'Apply Now'),
+(3, 'img/hero/portal_access.jpg', 'Excellence in Education', 'Experience academic excellence with our comprehensive programs and dedicated faculty.', 'Explore Programs'),
+(4, 'img/hero/assessment_form.jpg', 'Your Future Starts Here', 'Join thousands of successful alumni who started their journey with us.', 'Get Started');
 
 -- --------------------------------------------------------
 
@@ -211,17 +216,24 @@ CREATE TABLE `program_info` (
   `program_title` varchar(255) NOT NULL,
   `program_desc` text NOT NULL,
   `curriculum_title` varchar(255) NOT NULL,
-  `curriculum_image_title` varchar(255) DEFAULT NULL,
-  `curriculum_image` varchar(255) DEFAULT NULL
+  `curriculum_image1` varchar(255) DEFAULT NULL,
+  `curriculum_image2` varchar(255) DEFAULT NULL,
+  `curriculum_image3` varchar(255) DEFAULT NULL,
+  `curriculum_image4` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `program_info`
 --
 
-INSERT INTO `program_info` (`id`, `program_title`, `program_desc`, `curriculum_title`, `curriculum_image_title`, `curriculum_image`) VALUES
-(1, 'Bachelor of Science in Information Technology', 'The BSIT program prepares students for careers in software development, networking, and systems administration.', 'BSIT Curriculum 2024', 'IT Curriculum Overview', 'img/curriculum/bsit_2024.jpg'),
-(2, 'Bachelor of Science in Computer Science', 'Focuses on theoretical and practical aspects of computer systems and software development.', 'BSCS Curriculum 20231231', 'CS Curriculum Map', 'img/curriculum/bscs_2024.jpg');
+INSERT INTO `program_info` (`id`, `program_title`, `program_desc`, `curriculum_title`, `curriculum_image1`, `curriculum_image2`, `curriculum_image3`, `curriculum_image4`) VALUES
+(1, 'Bachelor of Science in Information Technology', 'The BSIT program prepares students for careers in software development, networking, and systems administration.', 'BSIT Curriculum 2024', 'img/curriculum/coa.jpg', 'img/curriculum/1732131660_frosh.jpg', 'img/curriculum/1732131660_acquaintance.jpg', 'img/curriculum/1732131660_section_offering.jpg'),
+(2, 'Bachelor of Science in Computer Science', 'Focuses on theoretical and practical aspects of computer systems and software development.', 'BSCS Curriculum 20231231', 'img/curriculum/UbuntuServer_Ballon.PNG', 'img/curriculum/1732132450_section_offering.jpg', 'img/curriculum/1732132450_wika.jpg', 'img/curriculum/1732132450_acquaintance.jpg'),
+(5, 'dasd', 'dasd', 'dasd', 'img/curriculum/college.jpg', 'img/curriculum/1732131685_wika.jpg', 'img/curriculum/1732131685_registration.jpg', 'img/curriculum/1732131685_grades.jpg'),
+(6, 'dasd', 'dasda', 'dasd', 'img/curriculum/wika.jpg', 'img/curriculum/1732132461_message.jpg', 'img/curriculum/1732132461_bsp.jpg', 'img/curriculum/1732132461_Ubuntu_Ballon.PNG'),
+(7, '123', 'da', 'eqw', 'img/curriculum/grades.jpg', 'img/curriculum/1732132472_portal_access.jpg', 'img/curriculum/1732132472_portal_access.jpg', 'img/curriculum/1732132472_section_offering.jpg'),
+(8, '31241', 'dasda', 'dad', 'img/curriculum/portal_access.jpg', 'img/curriculum/1732132482_alumni.jpg', 'img/curriculum/1732132482_alumni.jpg', 'img/curriculum/1732132482_bsp.jpg'),
+(9, 'dasda', 'dasd', 'dasd', 'img/curriculum/graduation.jpg', 'img/curriculum/1732132490_profiles.jpg', 'img/curriculum/registration.jpg', 'img/curriculum/1732132490_message.jpg');
 
 -- --------------------------------------------------------
 
@@ -233,19 +245,21 @@ CREATE TABLE `social_section` (
   `id` int(11) NOT NULL,
   `social_title` varchar(255) NOT NULL,
   `social_desc` text NOT NULL,
-  `social_icon` varchar(100) NOT NULL
+  `social_icon` varchar(100) NOT NULL,
+  `social_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `social_section`
 --
 
-INSERT INTO `social_section` (`id`, `social_title`, `social_desc`, `social_icon`) VALUES
-(1, 'Follow Us on Facebook', 'Stay connected with our university community on Facebook for latest updates and events.', 'fab fa-facebook'),
-(2, 'Join Us on LinkedIn', 'Connect with alumni and explore career opportunities through our professional network.', 'fab fa-linkedin'),
-(3, 'Watch on YouTube', 'Subscribe to our channel for virtual tours, lectures, and campus life videos.', 'fab fa-youtube'),
-(4, 'Follow on Instagram', 'Experience campus life through photos and stories from our community.', 'fab fa-instagram'),
-(5, 'Connect on Twitter', 'Get real-time updates and engage in university discussions.', 'fab fa-twitter');
+INSERT INTO `social_section` (`id`, `social_title`, `social_desc`, `social_icon`, `social_image`) VALUES
+(1, 'Follow Us on Facebook', 'Stay connected with our university community on Facebook for latest updates and events.', 'fab fa-facebook', 'uploads/social/college.jpg'),
+(2, 'Join Us on LinkedIn', 'Connect with alumni and explore career opportunities through our professional network.', 'fab fa-linkedin', 'uploads/social/wika.jpg'),
+(3, 'Watch on YouTube', 'Subscribe to our channel for virtual tours, lectures, and campus life videos.', 'fab fa-youtube', 'uploads/social/recognition.jpg'),
+(4, 'Follow on Instagram', 'Experience campus life through photos and stories from our community.', 'fab fa-instagram', 'uploads/social/college.jpg'),
+(5, 'Connect on Twitter', 'Get real-time updates and engage in university discussions.', 'fab fa-twitter', 'uploads/social/recognition.jpg'),
+(6, 'Follow Us on Facebook', 'Stay connected with our university community on Facebook for latest updates and events.', 'fab fa-facebook', 'uploads/social/graduation.jpg');
 
 -- --------------------------------------------------------
 
@@ -368,13 +382,13 @@ ALTER TABLE `user_accounts`
 -- AUTO_INCREMENT for table `aboutus_section`
 --
 ALTER TABLE `aboutus_section`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `department_programs`
 --
 ALTER TABLE `department_programs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -410,7 +424,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `program_info`
 --
 ALTER TABLE `program_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `social_section`
