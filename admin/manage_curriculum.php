@@ -51,9 +51,7 @@ $programsResult = $con->query($programsSql);
         min-width: auto;
     }
 
-    .table-responsive thead {
-        display: none;
-    }
+   
 
     .table-responsive tbody tr {
         display: block;
@@ -89,6 +87,16 @@ $programsResult = $con->query($programsSql);
     .table-responsive img {
         margin-left: auto;
     }
+         .table-responsive thead tr:first-child {
+        
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .table-responsive thead tr:not(:first-child) {
+        display: none;
+    }
 }
     </style>
 </head>
@@ -115,7 +123,6 @@ $programsResult = $con->query($programsSql);
                             <th>Program</th>
                             <th>Image</th>
                             <th>Title</th>
-                            <th>Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -128,7 +135,7 @@ $programsResult = $con->query($programsSql);
                                 <img src="<?php echo $row['image_path']; ?>" alt="Curriculum" style="max-width: 100px;">
                             </td>
                             <td class="px-2 py-2" data-label="TITLE"><?php echo htmlspecialchars($row['image_title']); ?></td>
-                            <td class="px-2 py-2" data-label="CREATED AT"><?php echo $row['created_at']; ?></td>
+                            
                             <td class="px-2 py-2" data-label="ACTION">
                                 <button class="btn btn-warning btn-sm edit_image" data-id="<?php echo $row['id']; ?>">
                                     <i class="bi bi-pencil-square"></i>
@@ -147,39 +154,94 @@ $programsResult = $con->query($programsSql);
     </div>
 
     <!-- Add Image Modal -->
-    <div class="modal fade" id="addImageModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Curriculum Image</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="code.php" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="add_curriculum">
-                        <div class="mb-3">
-                            <label>Program</label>
-                            <select name="program_id" class="form-control" required>
-                                <?php while($program = $programsResult->fetch_assoc()): ?>
-                                    <option value="<?php echo $program['id']; ?>">
-                                        <?php echo htmlspecialchars($program['program_title']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Image</label>
-                            <input type="file" name="image" class="form-control" required accept="image/*">
-                        </div>
-                        <div class="mb-3">
-                            <label>Image Title</label>
-                            <input type="text" name="image_title" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
+<!------curriculum add modal------->
+<div class="modal fade" id="staticBackdropCurriculum" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropCurriculumLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropCurriculumLabel">Add Curriculum</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Choose Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                    </div>
+                    <button type="submit" name="curriculum_add" class="btn btn-primary">Upload</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+    <!------curriculum edit modal------->
+<div class="modal fade" id="staticBackdropCurriculumUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropCurriculumUpdateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropCurriculumUpdateLabel">Edit Curriculum</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="update_curriculum.php">
+                    <input type="hidden" name="id" class="curriculum_id" value="">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control curriculum_title" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control curriculum_desc" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Choose Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                        <img id="imagePreview" src="#" alt="Selected Image" style="display: none; width: 100%; margin-top: 10px;" />
+                    </div>
+                    <button type="submit" name="curriculum_update" class="btn btn-primary w-100">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        $('.edit_curriculum').click(function (e) {
+            e.preventDefault();
+            
+            var curriculum_id = $(this).closest('tr').find('.curriculum_id').text();
+            console.log(curriculum_id); 
+            
+            $.ajax({
+                method: "POST",
+                url: "update_curriculum.php",
+                data: {
+                    'edit_curriculum': true,
+                    'curriculum_id': curriculum_id,
+                },
+                success: function (response) {
+                    console.log(response); 
+                    
+                    $.each(response, function (key, value) {
+                        $('.curriculum_id').val(value['ID']);
+                        $('.curriculum_title').val(value['title']);
+                        $('.curriculum_desc').val(value['description']);
+                    });
+
+                    $('#staticBackdropCurriculumUpdate').modal('show');
+                }
+            });
+        });
+    });
+</script>

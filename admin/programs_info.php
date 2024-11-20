@@ -1,19 +1,33 @@
 <?php
 require_once('../config.php');
-$programsSql = "SELECT * FROM department_programs";
-$programsSqlResult = $con->query($programsSql);
+$programSql = "SELECT * FROM program_info";
+$programSqlResult = $con->query($programSql);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
-    $department_title = $_POST['department_title'];
-    $course_title = $_POST['course_title'];
-    $button_text = $_POST['button_text'];
+    $program_title = $_POST['program_title'];
+    $program_desc = $_POST['program_desc'];
+    $curriculum_title = $_POST['curriculum_title'];
+    $curriculum_image_title = $_POST['curriculum_image_title'];
 
-    // Insert into database
-    $stmt = $con->prepare("INSERT INTO department_programs (department_title, course_title, button_text) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $department_title, $course_title, $button_text);
+    if (isset($_FILES['curriculum_image']) && $_FILES['curriculum_image']['error'] == 0) {
+        $image = $_FILES['curriculum_image'];
+        $imageName = basename($image['name']);
+        $imageTmpPath = $image['tmp_name'];
+        $uploadDir = 'img/curriculum/';
 
-    if ($stmt->execute()) {
-        header("Refresh: 1; url=department_programs.php");
+        $targetFilePath = $uploadDir . $imageName;
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
+            $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, curriculum_title, curriculum_image_title, curriculum_image) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $program_title, $program_desc, $curriculum_title, $curriculum_image_title, $targetFilePath);
+
+            if ($stmt->execute()) {
+                header("Refresh: 1; url=programs_info.php");
+            }
+        }
     }
 }
 ?>
@@ -156,23 +170,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Program</h5>
+                    <h5 class="modal-title">Add Program Information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="program_form">
                         <div class="mb-3">
-                            <label class="form-label">Department Title</label>
-                            <input type="text" class="form-control" name="department_title" required>
+                            <label class="form-label">Program Title</label>
+                            <input type="text" class="form-control" name="program_title" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Course Title</label>
-                            <input type="text" class="form-control" name="course_title" required>
+                            <label class="form-label">Program Description</label>
+                            <textarea class="form-control" name="program_desc" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Button Text</label>
-                            <input type="text" class="form-control" name="button_text" required>
+                            <label class="form-label">Curriculum Title</label>
+                            <input type="text" class="form-control" name="curriculum_title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curriculum Image Title</label>
+                            <input type="text" class="form-control" name="curriculum_image_title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curriculum Image</label>
+                            <input type="file" class="form-control" name="curriculum_image" accept="image/*" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Add Program</button>
                     </form>
@@ -186,23 +208,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Program</h5>
+                    <h5 class="modal-title">Edit Program Information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="update_program.php">
+                    <form method="POST" enctype="multipart/form-data" action="update_program_info.php">
                         <input type="hidden" name="id" class="program_id">
                         <div class="mb-3">
-                            <label class="form-label">Department Title</label>
-                            <input type="text" class="form-control program_dept" name="department_title" required>
+                            <label class="form-label">Program Title</label>
+                            <input type="text" class="form-control program_title" name="program_title" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Course Title</label>
-                            <input type="text" class="form-control program_course" name="course_title" required>
+                            <label class="form-label">Program Description</label>
+                            <textarea class="form-control program_desc" name="program_desc" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Button Text</label>
-                            <input type="text" class="form-control program_button" name="button_text" required>
+                            <label class="form-label">Curriculum Title</label>
+                            <input type="text" class="form-control curriculum_title" name="curriculum_title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curriculum Image Title</label>
+                            <input type="text" class="form-control curriculum_image_title" name="curriculum_image_title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Curriculum Image</label>
+                            <input type="file" class="form-control" name="curriculum_image" accept="image/*">
+                            <img id="imagePreview" src="#" alt="Current Image" style="max-width: 100%; margin-top: 10px; display: none;">
                         </div>
                         <button type="submit" name="update_program" class="btn btn-primary w-100">Update Program</button>
                     </form>
@@ -217,9 +248,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="5" class="bg-light">
+                            <th colspan="7" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
-                                    <h5 class="mb-0">Department Programs</h5>
+                                    <h5 class="mb-0">Program Information</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         Add Program
                                     </button>
@@ -228,30 +259,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                         </tr>
                         <tr>
                             <th>ID</th>
-                            <th>Department</th>
-                            <th>Course</th>
-                            <th>Button Text</th>
+                            <th>Program Title</th>
+                            <th>Description</th>
+                            <th>Curriculum Title</th>
+                            <th>Image Title</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($row = mysqli_fetch_assoc($programsSqlResult)) { ?>
+                        <?php while($row = mysqli_fetch_assoc($programSqlResult)) { ?>
                             <tr>
                                 <td class="program_id"  data-label="ID"><?php echo $row['id']; ?></td>
-                                <td  data-label="Department"><?php echo htmlspecialchars($row['department_title']); ?></td>
-                                <td  data-label="Course"><?php echo htmlspecialchars($row['course_title']); ?></td>
-                                <td  data-label="Button Text"><?php echo htmlspecialchars($row['button_text']); ?></td>
-                                <td class="text-center"  data-label="Actions">
+                                <td  data-label="Program Title"><?php echo htmlspecialchars($row['program_title']); ?></td>
+                                <td  data-label="Description"><?php echo htmlspecialchars($row['program_desc']); ?></td>
+                                <td  data-label="Curriculum Title"><?php echo htmlspecialchars($row['curriculum_title']); ?></td>
+                                <td  data-label="Image Title"><?php echo htmlspecialchars($row['curriculum_image_title']); ?></td>
+                                <td  data-label="Actions">
+                                    <?php if (!empty($row['curriculum_image'])): ?>
+                                        <img src="<?php echo htmlspecialchars($row['curriculum_image']); ?>" alt="Curriculum" style="max-width: 100px;">
+                                    <?php else: ?>
+                                        No Image
+                                    <?php endif; ?>
+                                </td>
+                                <td>
                                     <a class="btn btn-sm btn-warning mx-1 edit_program">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                        </svg>
+                                        <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <a href="delete_program.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger mx-1" onclick="return confirm('Are you sure?');">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                                        </svg>
+                                    <a href="delete_program_info.php?id=<?php echo $row['id']; ?>" 
+                                       class="btn btn-sm btn-danger mx-1" 
+                                       onclick="return confirm('Are you sure you want to delete this program?');">
+                                        <i class="bi bi-trash3"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -264,30 +302,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        $(document).ready(function() {
-            $('.edit_program').click(function(e) {
-                e.preventDefault();
-                var id = $(this).closest('tr').find('.program_id').text();
-                
-                $.ajax({
-                    method: "POST",
-                    url: "update_program.php",
-                    data: {
-                        'get_program': true,
-                        'program_id': id
-                    },
-                    success: function(response) {
-                        var data = JSON.parse(response);
-                        $('.program_id').val(data.id);
-                        $('.program_dept').val(data.department_title);
-                        $('.program_course').val(data.course_title);
-                        $('.program_button').val(data.button_text);
-                        $('#editProgramModal').modal('show');
+    $(document).ready(function() {
+        $('.edit_program').click(function(e) {
+            e.preventDefault();
+            var id = $(this).closest('tr').find('.program_id').text();
+            
+            $.ajax({
+                method: "POST",
+                url: "update_program_info.php",
+                data: {
+                    'get_program': true,
+                    'program_id': id
+                },
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    $('.program_id').val(data.id);
+                    $('.program_title').val(data.program_title);
+                    $('.program_desc').val(data.program_desc);
+                    $('.curriculum_title').val(data.curriculum_title);
+                    $('.curriculum_image_title').val(data.curriculum_image_title);
+                    if(data.curriculum_image) {
+                        $('#imagePreview').attr('src', data.curriculum_image).show();
                     }
-                });
+                    $('#editProgramModal').modal('show');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>

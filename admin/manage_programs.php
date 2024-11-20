@@ -2,6 +2,34 @@
 require_once('../config.php');
 $programsSql = "SELECT * FROM department_programs";
 $programsResult = $con->query($programsSql);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
+    $program_title = $_POST['program_title'];
+    $program_description = $_POST['program_description'];
+    $curriculum_title = $_POST['curriculum_title'];
+
+    if (isset($_FILES['program_image']) && $_FILES['program_image']['error'] == 0) {
+        $image = $_FILES['program_image'];
+        $imageName = basename($image['name']);
+        $imageTmpPath = $image['tmp_name'];
+        $uploadDir = 'uploads/programs/';
+
+        $targetFilePath = $uploadDir . $imageName;
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
+            // Insert into database
+            $stmt = $con->prepare("INSERT INTO department_programs (program_title, program_description, curriculum_title, program_image) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $program_title, $program_description, $curriculum_title, $targetFilePath);
+
+            if ($stmt->execute()) {
+                header("Refresh: 1; url=manage_programs.php");
+            } 
+        } 
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +73,6 @@ $programsResult = $con->query($programsSql);
         min-width: auto;
     }
 
-    .table-responsive thead {
-        display: none;
-    }
 
     .table-responsive tbody tr {
         display: block;
@@ -83,11 +108,53 @@ $programsResult = $con->query($programsSql);
     .table-responsive img {
         margin-left: auto;
     }
+         .table-responsive thead tr:first-child {
+        
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .table-responsive thead tr:not(:first-child) {
+        display: none;
+    }
 }
     </style>
 </head>
 <body class="black">
     <?php include 'adminnav.php'; ?>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Program</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="program_form">
+                    <div class="mb-3">
+                        <label for="program_title" class="form-label">Program Title</label>
+                        <input type="text" class="form-control" id="program_title" name="program_title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="program_description" class="form-label">Program Description</label>
+                        <textarea class="form-control" id="program_description" name="program_description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="curriculum_title" class="form-label">Curriculum Title</label>
+                        <input type="text" class="form-control" id="curriculum_title" name="curriculum_title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="program_image" class="form-label">Choose Image</label>
+                        <input type="file" class="form-control" id="program_image" name="program_image" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     
     <div class="main-container">
         <div class="table-wrapper">
@@ -95,15 +162,15 @@ $programsResult = $con->query($programsSql);
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="5" class="bg-light">
-                                <div class="d-flex justify-content-between align-items-center p-2">
-                                    <h5 class="card-title mb-0">Read Programs</h5>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProgramModal">
-                                        Add Record
-                                    </button>
-                                </div>
-                            </th>
-                        </tr>
+    <th colspan="6" class="bg-light">
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <h5 class="card-title mb-0">Manage Programs</h5>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add Program
+            </button>
+        </div>
+    </th>
+</tr>
                         <tr>
                             <th class="px-2 py-2 text-center" scope="col"><strong>ID</strong></th>
                             <th class="px-2 py-2 text-center" scope="col"><strong>PROGRAM TITLE</strong></th>
@@ -150,6 +217,18 @@ $programsResult = $con->query($programsSql);
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all modals
+    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+    
+    // Optional: Add trigger for modal
+    document.querySelector('[data-bs-toggle="modal"]').addEventListener('click', function() {
+        myModal.show();
+    });
+});
+</script>
 </body>
 </html>

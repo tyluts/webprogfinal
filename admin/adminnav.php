@@ -25,25 +25,26 @@
                 <i class="bi bi-speedometer2 me-2"></i>Dashboard
             </a>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle  text-white " href="manage_programs.php" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-collection me-2"></i>Manage Programs
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="manage_curriculum.php"><i class="bi bi-journal-text me-2"></i>Manage Curriculum</a></li>
+<li class="nav-item drpdowon">
+    <a class="nav-link   text-white" href="#" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-collection me-2"></i> Programs 
+    </a>
+    <ul class=" dropdown-menu-dark">
+        <li><a class="dropdown-item p-2" href="department_programs.php"><i class="bi bi-journal-text me-2"></i>Manage Department</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item p-2" href="programs_info.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="manage_social.php"><i class="bi bi-share me-2"></i>Manage Social</a></li>
-            </ul>
-        </li>
+        <li><a class="dropdown-item p-2" href="social_section.php"><i class="bi bi-collection me-2"></i>Manage Social</a></li>
+
+    </ul>
+</li>
         <li class="nav-item">
             <a class="nav-link text-white" href="events.php">
                 <i class="bi bi-calendar-event me-2"></i>Manage Events
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-white" href="hero.php">
+            <a class="nav-link text-white" href="hero_section.php">
                 <i class="bi bi-image me-2"></i>Manage Hero
             </a>
         </li>
@@ -52,11 +53,25 @@
                 <i class="bi bi-newspaper me-2"></i>Manage News
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="aboutus.php">
-                <i class="bi bi-info-circle me-2"></i>Manage About Us
+        
+        <li class="nav-item dropdown">
+    <a class="nav-link  text-white" href="manage_aboutus.php" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-info-circle me-2"></i>About Us
+    </a>
+    <ul class=" dropdown-menu-dark " aria-labelledby="aboutDropdown">
+        <li>
+            <a class="dropdown-item p-2" href="aboutus_section.php">
+                <i class="bi bi-file-text me-2"></i>Manage About Us
             </a>
         </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item p-2" href="facilities_section.php">
+                <i class="bi bi-building me-2"></i>Manage Facilities
+            </a>
+        </li>
+    </ul>
+</li>
         <li class="nav-item mt-auto">
             <a class="nav-link text-white" href="logout.php">
                 <i class="bi bi-box-arrow-right me-2"></i>Logout
@@ -77,18 +92,18 @@
                     <i class="bi bi-speedometer2 me-2"></i>Dashboard
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-collection me-2"></i>Manage Programs
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="manage_curriculum.php"><i class="bi bi-journal-text me-2"></i>Manage Curriculum</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="manage_social.php"><i class="bi bi-share me-2"></i>Manage Social</a></li>
-                </ul>
-            </li>
+          <li class="nav-item drpdowon">
+    <a class="nav-link   text-white" href="#" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-collection me-2"></i> Programs 
+    </a>
+    <ul class=" dropdown-menu-dark">
+        <li><a class="dropdown-item p-2" href="manage_curriculum.php"><i class="bi bi-journal-text me-2"></i>Manage Department</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item p-2" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
+                <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item p-2" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
+    </ul>
+</li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="events.php">
                     <i class="bi bi-calendar-event me-2"></i>Manage Events
@@ -104,11 +119,24 @@
                     <i class="bi bi-newspaper me-2"></i>Manage News
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="aboutus.php">
-                    <i class="bi bi-info-circle me-2"></i>Manage About Us
-                </a>
-            </li>
+                   <li class="nav-item dropdown">
+    <a class="nav-link  text-white" href="manage_aboutus.php" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-info-circle me-2"></i>About Us
+    </a>
+    <ul class=" dropdown-menu-dark " aria-labelledby="aboutDropdown">
+        <li>
+            <a class="dropdown-item p-2" href="manage_aboutus.php">
+                <i class="bi bi-file-text me-2"></i>Manage About Us
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item p-2" href="manage_facilities.php">
+                <i class="bi bi-building me-2"></i>Manage Facilities
+            </a>
+        </li>
+    </ul>
+</li>
             <li class="nav-item mt-auto">
                 <a class="nav-link text-white" href="logout.php">
                     <i class="bi bi-box-arrow-right me-2"></i>Logout

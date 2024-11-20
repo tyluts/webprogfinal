@@ -51,9 +51,7 @@ $programsResult = $con->query($programsSql);
         min-width: auto;
     }
 
-    .table-responsive thead {
-        display: none;
-    }
+    
 
     .table-responsive tbody tr {
         display: block;
@@ -88,6 +86,16 @@ $programsResult = $con->query($programsSql);
 
     .table-responsive img {
         margin-left: auto;
+    }
+         .table-responsive thead tr:first-child {
+        
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .table-responsive thead tr:not(:first-child) {
+        display: none;
     }
 }
     </style>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2024 at 09:35 PM
+-- Generation Time: Nov 20, 2024 at 04:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,34 +24,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `curriculum_images`
+-- Table structure for table `aboutus_section`
 --
 
-CREATE TABLE `curriculum_images` (
+CREATE TABLE `aboutus_section` (
   `id` int(11) NOT NULL,
-  `program_id` int(11) DEFAULT NULL,
-  `image_path` varchar(255) NOT NULL,
-  `image_title` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `mission_title` varchar(255) NOT NULL,
+  `mission_desc` text NOT NULL,
+  `vision_title` varchar(255) NOT NULL,
+  `vision_desc` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `curriculum_images`
+-- Dumping data for table `aboutus_section`
 --
 
-INSERT INTO `curriculum_images` (`id`, `program_id`, `image_path`, `image_title`, `created_at`) VALUES
-(1, 1, 'img/curriculum/ce_year1.jpg', 'First Year', '2024-11-19 17:59:09'),
-(2, 1, 'img/curriculum/ce_year2.jpg', 'Second Year', '2024-11-19 17:59:09'),
-(3, 1, 'img/curriculum/ce_year3.jpg', 'Third Year', '2024-11-19 17:59:09'),
-(4, 1, 'img/curriculum/ce_year4.jpg', 'Fourth Year', '2024-11-19 17:59:09'),
-(5, 2, 'img/curriculum/cpe_year1.jpg', 'First Year', '2024-11-19 17:59:09'),
-(6, 2, 'img/curriculum/cpe_year2.jpg', 'Second Year', '2024-11-19 17:59:09'),
-(7, 2, 'img/curriculum/cpe_year3.jpg', 'Third Year', '2024-11-19 17:59:09'),
-(8, 2, 'img/curriculum/cpe_year4.jpg', 'Fourth Year', '2024-11-19 17:59:09'),
-(9, 3, 'img/curriculum/me_year1.jpg', 'First Year', '2024-11-19 17:59:09'),
-(10, 3, 'img/curriculum/me_year2.jpg', 'Second Year', '2024-11-19 17:59:09'),
-(11, 3, 'img/curriculum/me_year3.jpg', 'Third Year', '2024-11-19 17:59:09'),
-(12, 3, 'img/curriculum/me_year4.jpg', 'Fourth Year', '2024-11-19 17:59:09');
+INSERT INTO `aboutus_section` (`id`, `mission_title`, `mission_desc`, `vision_title`, `vision_desc`) VALUES
+(1, 'Our Mission', 'To provide exceptional education and foster intellectual growth through innovative teaching, research, and community engagement. We are committed to developing well-rounded individuals who contribute positively to society through academic excellence, critical thinking, and ethical leadership.', '31231212', 'To be a leading institution of higher learning recognized globally for academic excellence, innovative research, and producing graduates who are prepared to address the challenges of tomorrow. We aspire to create an inclusive environment that promotes creativity, diversity, and sustainable development.'),
+(4, 'dasd', 'dsad', 'dasd', 'dasdas');
 
 -- --------------------------------------------------------
 
@@ -61,21 +51,26 @@ INSERT INTO `curriculum_images` (`id`, `program_id`, `image_path`, `image_title`
 
 CREATE TABLE `department_programs` (
   `id` int(11) NOT NULL,
-  `program_title` varchar(100) NOT NULL,
-  `program_description` text NOT NULL,
-  `curriculum_title` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `department_title` varchar(255) NOT NULL,
+  `course_title` varchar(255) NOT NULL,
+  `button_text` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `department_programs`
 --
 
-INSERT INTO `department_programs` (`id`, `program_title`, `program_description`, `curriculum_title`, `created_at`, `updated_at`) VALUES
-(1, 'Civil Engineering', 'The Civil Engineering program prepares students for careers in infrastructure development and construction management.', 'CE Curriculum 2024', '2024-11-19 17:59:09', '2024-11-19 17:59:09'),
-(2, 'Computer Engineering', 'Comprehensive program combining computer science and electronic engineering principles.', 'CPE Curriculum 2024', '2024-11-19 17:59:09', '2024-11-19 17:59:09'),
-(3, 'Mechanical Engineering', 'Program focused on design, manufacturing, and maintenance of mechanical systems.', 'ME Curriculum 2024', '2024-11-19 17:59:09', '2024-11-19 17:59:09');
+INSERT INTO `department_programs` (`id`, `department_title`, `course_title`, `button_text`) VALUES
+(1, 'College of Engineering', 'BS in Computer Engineering', 'asd'),
+(2, 'College of Engineering', 'BS in Civil Engineering', 'Learn More'),
+(3, 'College of Engineering', 'BS in Electrical Engineering', 'Enroll Today'),
+(4, 'College of Business', 'BS in Business Administration', 'Register Now'),
+(5, 'College of Business', 'BS in Accountancy', 'View Details'),
+(6, 'College of Arts and Sciences', 'BA in Psychology', 'Discover More'),
+(7, 'College of Arts and Sciences', 'BA in Communication', 'Join Us'),
+(8, 'College of Education', 'Bachelor in Secondary Education', 'Start Here'),
+(11, 'dasd', 'das', 'dasd'),
+(12, 'das', 'das', 'das');
 
 -- --------------------------------------------------------
 
@@ -106,30 +101,80 @@ INSERT INTO `events` (`ID`, `img`, `title`, `description`, `date`, `loc`) VALUES
 (12, 'img/file (3).png', 'Walang Pasok', 'sdasdasd', '2024-11-06 04:43:00', 'sdasdasd'),
 (13, 'img/file (1).png', 'fuck this', '321', '2024-11-19 21:30:00', '123'),
 (14, 'img/message.jpg', 'ssda', 'lol', '1111-11-11 11:11:00', 'calolo'),
-(15, 'img/recognition.jpg', '123', '123', '2312-12-31 03:12:00', '312312'),
-(16, 'img/recognition.jpg', '123', '123', '2312-12-31 03:12:00', '312312'),
-(17, 'img/section_offering.jpg', '32131', '31231221', '3211-03-11 23:12:00', '321'),
-(18, 'img/graduation.jpg', '213', '1231', '3123-03-21 12:31:00', 'DASDSA');
+(15, 'img/recognition.jpg', '123', '123', '2312-12-31 03:12:00', '312312');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
+-- Table structure for table `facilities_section`
 --
 
-CREATE TABLE `images` (
+CREATE TABLE `facilities_section` (
   `id` int(11) NOT NULL,
-  `image_path` varchar(255) NOT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `facility_title` varchar(255) NOT NULL,
+  `facility_desc` text NOT NULL,
+  `facility_image1` varchar(255) DEFAULT NULL,
+  `facility_image2` varchar(255) DEFAULT NULL,
+  `facility_image3` varchar(255) DEFAULT NULL,
+  `facility_image4` varchar(255) DEFAULT NULL,
+  `facility_image5` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `images`
+-- Dumping data for table `facilities_section`
 --
 
-INSERT INTO `images` (`id`, `image_path`, `uploaded_at`) VALUES
-(1, '	\r\nimg/file (2).png', '2024-11-18 15:37:57'),
-(2, '	\r\nimg/file (2).png', '2024-11-18 15:38:00');
+INSERT INTO `facilities_section` (`id`, `facility_title`, `facility_desc`, `facility_image1`, `facility_image2`, `facility_image3`, `facility_image4`, `facility_image5`) VALUES
+(4, '313', '31231', 'img/facilities/1732116442_1_college.jpg', 'img/facilities/1732116442_2_assessment_form.jpg', 'img/facilities/1732116442_3_acquaintance.jpg', 'img/facilities/1732116442_4_college.jpg', 'img/facilities/1732116442_5_wika.jpg'),
+(5, 'dasd', 'dasd', 'img/facilities/1732116848_1_frosh.jpg', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hero_section`
+--
+
+CREATE TABLE `hero_section` (
+  `id` int(11) NOT NULL,
+  `hero_img` varchar(255) NOT NULL,
+  `hero_title` varchar(255) NOT NULL,
+  `hero_desc` text NOT NULL,
+  `button_text` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hero_section`
+--
+
+INSERT INTO `hero_section` (`id`, `hero_img`, `hero_title`, `hero_desc`, `button_text`) VALUES
+(1, 'img/hero/campus1.jpg', 'Welcome to Our University', 'Empowering minds, shaping futures. Join our community of innovative learners and world-class educators.', 'Learn More'),
+(2, 'img/hero/students.jpg', 'Discover Your Potential', 'Access quality education, state-of-the-art facilities, and diverse learning opportunities.', 'Apply Now'),
+(3, 'img/hero/library.jpg', 'Excellence in Education', 'Experience academic excellence with our comprehensive programs and dedicated faculty.', 'Explore Programs'),
+(4, 'img/hero/graduation.jpg', 'Your Future Starts Here', 'Join thousands of successful alumni who started their journey with us.', 'Get Started');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hero_sections`
+--
+
+CREATE TABLE `hero_sections` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `video_path` varchar(255) DEFAULT NULL,
+  `button_text` varchar(100) DEFAULT NULL,
+  `button_url` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hero_sections`
+--
+
+INSERT INTO `hero_sections` (`id`, `title`, `description`, `image_path`, `video_path`, `button_text`, `button_url`, `is_active`) VALUES
+(1, 'Welcome to Our Website', 'Discover amazing features and services we offer', '/uploads/hero/hero-image.jpg', NULL, 'Learn More', '/about', 1);
 
 -- --------------------------------------------------------
 
@@ -153,47 +198,54 @@ INSERT INTO `posts` (`ID`, `title`, `caption`, `photo`, `date_posted`) VALUES
 (14, 'wew', 'fuck accounting', 'img/Screenshot_26-10-2024_181814_www.facebook.com.jpeg', '2024-11-19'),
 (15, '312312123123', '321', 'img/file (2).png', '2024-11-19'),
 (16, 'mahina ron', '123', 'img/graduation.jpg', '2024-11-19'),
-(17, 'olo', 'qwe', 'img/alumni.jpg', '2024-11-19'),
-(18, '313', 'ADSAD', 'img/assessment_form.jpg', '2024-11-19');
+(17, 'olo', 'qwe', 'img/alumni.jpg', '2024-11-19');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `programs`
+-- Table structure for table `program_info`
 --
 
-CREATE TABLE `programs` (
+CREATE TABLE `program_info` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `curriculum_img` varchar(255) NOT NULL,
-  `curriculum_desc` text NOT NULL,
-  `img_caption` varchar(255) NOT NULL
+  `program_title` varchar(255) NOT NULL,
+  `program_desc` text NOT NULL,
+  `curriculum_title` varchar(255) NOT NULL,
+  `curriculum_image_title` varchar(255) DEFAULT NULL,
+  `curriculum_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `program_info`
+--
+
+INSERT INTO `program_info` (`id`, `program_title`, `program_desc`, `curriculum_title`, `curriculum_image_title`, `curriculum_image`) VALUES
+(1, 'Bachelor of Science in Information Technology', 'The BSIT program prepares students for careers in software development, networking, and systems administration.', 'BSIT Curriculum 2024', 'IT Curriculum Overview', 'img/curriculum/bsit_2024.jpg'),
+(2, 'Bachelor of Science in Computer Science', 'Focuses on theoretical and practical aspects of computer systems and software development.', 'BSCS Curriculum 20231231', 'CS Curriculum Map', 'img/curriculum/bscs_2024.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `program_social`
+-- Table structure for table `social_section`
 --
 
-CREATE TABLE `program_social` (
+CREATE TABLE `social_section` (
   `id` int(11) NOT NULL,
-  `program_id` int(11) DEFAULT NULL,
-  `social_title` varchar(100) DEFAULT NULL,
-  `social_description` text DEFAULT NULL,
-  `social_icon` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `social_title` varchar(255) NOT NULL,
+  `social_desc` text NOT NULL,
+  `social_icon` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `program_social`
+-- Dumping data for table `social_section`
 --
 
-INSERT INTO `program_social` (`id`, `program_id`, `social_title`, `social_description`, `social_icon`, `created_at`) VALUES
-(1, 1, 'CE Department', 'Follow us for Civil Engineering updates and events', 'fab fa-facebook-f', '2024-11-19 17:59:09'),
-(2, 2, 'CPE Department', 'Stay connected with Computer Engineering department', 'fab fa-facebook-f', '2024-11-19 17:59:09'),
-(3, 3, 'ME Department', 'Join the Mechanical Engineering community', 'fab fa-facebook-f', '2024-11-19 17:59:09');
+INSERT INTO `social_section` (`id`, `social_title`, `social_desc`, `social_icon`) VALUES
+(1, 'Follow Us on Facebook', 'Stay connected with our university community on Facebook for latest updates and events.', 'fab fa-facebook'),
+(2, 'Join Us on LinkedIn', 'Connect with alumni and explore career opportunities through our professional network.', 'fab fa-linkedin'),
+(3, 'Watch on YouTube', 'Subscribe to our channel for virtual tours, lectures, and campus life videos.', 'fab fa-youtube'),
+(4, 'Follow on Instagram', 'Experience campus life through photos and stories from our community.', 'fab fa-instagram'),
+(5, 'Connect on Twitter', 'Get real-time updates and engage in university discussions.', 'fab fa-twitter');
 
 -- --------------------------------------------------------
 
@@ -243,11 +295,10 @@ INSERT INTO `user_accounts` (`ID`, `fName`, `lName`, `username`, `password`) VAL
 --
 
 --
--- Indexes for table `curriculum_images`
+-- Indexes for table `aboutus_section`
 --
-ALTER TABLE `curriculum_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `program_id` (`program_id`);
+ALTER TABLE `aboutus_section`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `department_programs`
@@ -262,9 +313,21 @@ ALTER TABLE `events`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `images`
+-- Indexes for table `facilities_section`
 --
-ALTER TABLE `images`
+ALTER TABLE `facilities_section`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hero_section`
+--
+ALTER TABLE `hero_section`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hero_sections`
+--
+ALTER TABLE `hero_sections`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -274,17 +337,16 @@ ALTER TABLE `posts`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `programs`
+-- Indexes for table `program_info`
 --
-ALTER TABLE `programs`
+ALTER TABLE `program_info`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `program_social`
+-- Indexes for table `social_section`
 --
-ALTER TABLE `program_social`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `program_id` (`program_id`);
+ALTER TABLE `social_section`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `top_programs`
@@ -303,16 +365,16 @@ ALTER TABLE `user_accounts`
 --
 
 --
--- AUTO_INCREMENT for table `curriculum_images`
+-- AUTO_INCREMENT for table `aboutus_section`
 --
-ALTER TABLE `curriculum_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+ALTER TABLE `aboutus_section`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `department_programs`
 --
 ALTER TABLE `department_programs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -321,10 +383,22 @@ ALTER TABLE `events`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT for table `facilities_section`
 --
-ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `facilities_section`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `hero_section`
+--
+ALTER TABLE `hero_section`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `hero_sections`
+--
+ALTER TABLE `hero_sections`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -333,16 +407,16 @@ ALTER TABLE `posts`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `programs`
+-- AUTO_INCREMENT for table `program_info`
 --
-ALTER TABLE `programs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `program_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `program_social`
+-- AUTO_INCREMENT for table `social_section`
 --
-ALTER TABLE `program_social`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `social_section`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `top_programs`
@@ -355,22 +429,6 @@ ALTER TABLE `top_programs`
 --
 ALTER TABLE `user_accounts`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `curriculum_images`
---
-ALTER TABLE `curriculum_images`
-  ADD CONSTRAINT `curriculum_images_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `department_programs` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `program_social`
---
-ALTER TABLE `program_social`
-  ADD CONSTRAINT `program_social_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `department_programs` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

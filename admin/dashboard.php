@@ -100,6 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Dropdown hidden');
     });
 });
-</script>
+</script> 
 </body>
 </html>
