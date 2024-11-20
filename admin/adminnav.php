@@ -97,11 +97,11 @@
         <i class="bi bi-collection me-2"></i> Programs 
     </a>
     <ul class=" dropdown-menu-dark">
-        <li><a class="dropdown-item p-2" href="manage_curriculum.php"><i class="bi bi-journal-text me-2"></i>Manage Department</a></li>
+        <li><a class="dropdown-item p-2" href="department_programs.php"><i class="bi bi-journal-text me-2"></i>Manage Department</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item p-2" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
+        <li><a class="dropdown-item p-2" href="programs_info.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
                 <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item p-2" href="manage_programs.php"><i class="bi bi-collection me-2"></i>Manage Programs</a></li>
+        <li><a class="dropdown-item p-2" href="social_section.php"><i class="bi bi-collection me-2"></i>Manage Social</a></li>
     </ul>
 </li>
             <li class="nav-item">
@@ -110,7 +110,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="hero.php">
+                <a class="nav-link text-white" href="hero_section.php">
                     <i class="bi bi-image me-2"></i>Manage Hero
                 </a>
             </li>
@@ -125,13 +125,13 @@
     </a>
     <ul class=" dropdown-menu-dark " aria-labelledby="aboutDropdown">
         <li>
-            <a class="dropdown-item p-2" href="manage_aboutus.php">
+            <a class="dropdown-item p-2" href="aboutus_section.php">
                 <i class="bi bi-file-text me-2"></i>Manage About Us
             </a>
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>
-            <a class="dropdown-item p-2" href="manage_facilities.php">
+            <a class="dropdown-item p-2" href="facilities_section.php">
                 <i class="bi bi-building me-2"></i>Manage Facilities
             </a>
         </li>
