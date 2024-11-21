@@ -29,7 +29,7 @@ if (!$hero) {
                      style="object-fit: cover;"
                 />
                 <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
-                     style="background-color: rgba(0, 0, 0, 0.5);">
+                     style="background-color: rgba(0, 0, 0, 0.8);">
                     <div class="text-center text-white p-2 p-md-3">
                         <h2 class="fw-bold  fs-sm-4 fs-md-3 red"><?php echo htmlspecialchars($hero['hero_title']); ?></h2>
                         <p class="fs-7 fs-sm-6 fs-md-5 mb-2 mb-md-3">

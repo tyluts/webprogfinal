@@ -15,8 +15,8 @@ if (isset($_POST['click_deets'])) {
         while ($row = $eventsSqlResult->fetch_assoc()) {
             echo '
                 <div class="modal-header d-flex justify-content-center w-100" style="background-color: #13171a; border-bottom: 1px solid #343a40;">
-                    <h5 class="modal-title"><strong>' . htmlspecialchars($row['title']) . '</strong></h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title red"><strong>' . htmlspecialchars($row['title']) . '</strong></h5>
+                    <button type="button" class="btn-close bg-red " data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body text-white">
@@ -55,7 +55,7 @@ if (isset($_POST['news_deets'])) {
             echo '
                 <div class="modal-header modal-header d-flex justify-content-center w-100" style="background-color: #13171a; border-bottom: 1px solid #343a40;">
                     <h5 class="modal-title"><strong>' . htmlspecialchars($row['title']) . '</strong> </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-red " data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body text-white">
