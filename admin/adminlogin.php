@@ -68,6 +68,7 @@ if(isset($_POST['submit'])){
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
      <link rel="stylesheet" href="css/admincss/adminlogin.css">
+     <link rel="stylesheet" href="../include/head.php">
     <title>Home</title>
 </head>
 <body>
@@ -80,7 +81,7 @@ if(isset($_POST['submit'])){
             <div class="card-body p-5 text-center">
 
                 <form method="post">
-                    <h3 class="mb-5">Sign in</h3>
+                    <h3 class="mb-5  fw-bold">SIGN IN</h3>
 
                     <div data-mdb-input-init class="form-outline mb-4">
                     <input type="text" id="typeEmailX-2" name="username" class="form-control form-control-lg" />
@@ -98,7 +99,7 @@ if(isset($_POST['submit'])){
                     <label class="form-check-label" for="form1Example3"> Remember password </label>
                     </div>
 
-                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Login</button>
+                    <button data-mdb-button-init data-mdb-ripple-init class="btn " type="submit" name="submit">Login</button>
                 </form>
 
             <hr class="my-4">
@@ -108,5 +109,30 @@ if(isset($_POST['submit'])){
     </div>
   </div>
 </section>
+<style>
+    .btn {
+        background-color: red;
+        width: 100%;
+        color: white;
+    }
+        .btn:hover {
+        background-color: #6b1617;
+        color: white;
+        
+    }
+        .form-check-input:checked {
+            background-color: red; /* Change this to your desired color */
+            border-color: red; /* Change this to your desired color */
+             box-shadow: 0 0 5px red;
+        }
+                .form-control:focus {
+            border-color: red; /* Change this to your desired color */
+            box-shadow: 0 0 5px red; /* Optional: add a shadow effect */
+        }
+        .fw-bold {
+            color: red;
+        }
+        
+</style>
 </body>
 </html>
