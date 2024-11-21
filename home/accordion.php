@@ -35,3 +35,14 @@
 </div>
 
 
+    <style>
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+      
+        .accordion-button.collapsed {
+            color: #fff;
+            background-color: #6c757d;
+        }
+
+    </style>
