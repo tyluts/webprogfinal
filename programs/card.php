@@ -182,9 +182,10 @@ function getProgramsByRange($con, $startId, $endId) {
                                     <h5 class="card-title mb-2 text-white">
                                         <?php echo htmlspecialchars($program['course_title']); ?>
                                     </h5>
-                                <a href="./programs/coursepage.php?course_code=<?php echo$program['course_code'];?>" class="btn bg-red text-white">
-                                    <?php echo htmlspecialchars($program['button_text']); ?>
-                                </a>
+                                    <a href="./programs/coursepage.php?course_code=<?php echo urlencode(trim($program['course_code'])); ?>" class="btn bg-red text-white">
+                                        <?php echo htmlspecialchars($program['button_text']); ?>
+                                    </a>
+
                                 </div>
                             </div>
                         </div>

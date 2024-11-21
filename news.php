@@ -59,17 +59,15 @@
 </section>
 
 <!-- News Modal -->
-<div class="modal fade" id="news_deets_modal" tabindex="-1" aria-labelledby="news_deets_modalLabel" aria-hidden="true">
+<div class="modal fade" id="news_deets_modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-            <div class="modal-header bg-dark text-white">
-                <h1 class="modal-title fs-5" id="news_deets_modalLabel">News</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content" style="background-color: #23282b; color: #ffffff;">
+            <div class="view_news_details" class="">
+               
+                
+                
             </div>
-            <div class="modal-body bg-dark text-white">
-                <div class="view_news_details"></div>
-            </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="background-color: #13171a; border-top: 1px solid #343a40;">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

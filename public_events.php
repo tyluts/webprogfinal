@@ -73,15 +73,11 @@
 <!-- Event Modal -->
 <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-            <div class="modal-header">
-                <h5 class="modal-title text-white">Event Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content" style="background-color: #23282b; color: #ffffff;">
+            <div id="eventDetails" class="">
+                    
             </div>
-            <div class="modal-body text-white">
-                <div id="eventDetails"></div>
-            </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="background-color: #13171a; border-top: 1px solid #343a40;">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

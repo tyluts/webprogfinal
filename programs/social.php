@@ -8,7 +8,7 @@ $result = $con->query($sql);
 
 <?php while($row = $result->fetch_assoc()): ?>
 <div class="position-relative w-100 my-5" style="height: 30vh;">
-   <img src="<?php echo !empty($row['social_image']) ? '../../admin/' . $row['social_image'] : '../../img/frosh.jpg'; ?>"
+   <img src="<?php echo !empty($row['social_image']) ? '../admin/' . $row['social_image'] : '../img/frosh.jpg'; ?>"
          class="img-fluid w-100" 
          alt="<?php echo htmlspecialchars($row['social_title']); ?>" 
          style="height: 100%; object-fit: cover;">
