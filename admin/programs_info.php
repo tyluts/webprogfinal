@@ -6,10 +6,12 @@ $programSqlResult = $con->query($programSql);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
     $program_title = $_POST['program_title'];
     $program_desc = $_POST['program_desc'];
+    $course_code = $_POST['course_code'];
+    $dept_code = $_POST['dept_code'];
 
     // Handle multiple images
     $images = [];
-    for($i = 1; $i <= 4; $i++) {
+    for ($i = 1; $i <= 4; $i++) {
         $field_name = 'curriculum_image' . ($i == 1 ? '' : $i);
         if (isset($_FILES[$field_name]) && $_FILES[$field_name]['error'] == 0) {
             $image = $_FILES[$field_name];
@@ -23,25 +25,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
 
             if (move_uploaded_file($image['tmp_name'], $targetFilePath)) {
                 $images[$field_name] = $targetFilePath;
+            } else {
+                $images[$field_name] = null; // If upload fails
             }
+        } else {
+            $images[$field_name] = null; // If no file uploaded
         }
     }
 
-    $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", 
-        $program_title, 
-        $program_desc, 
-        $images['curriculum_image'] ?? null,
-        $images['curriculum_image2'] ?? null,
-        $images['curriculum_image3'] ?? null,
-        $images['curriculum_image4'] ?? null
+    // Assign images to variables
+    $curriculum_image1 = $images['curriculum_image'] ?? null;
+    $curriculum_image2 = $images['curriculum_image2'] ?? null;
+    $curriculum_image3 = $images['curriculum_image3'] ?? null;
+    $curriculum_image4 = $images['curriculum_image4'] ?? null;
+
+    // Prepare the SQL statement
+    $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, course_code, curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4, dept_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param(
+        "ssssssss",
+        $program_title,
+        $program_desc,
+        $course_code,
+        $curriculum_image1,
+        $curriculum_image2,
+        $curriculum_image3,
+        $curriculum_image4,
+        $dept_code
     );
 
+    // Execute the query
     if ($stmt->execute()) {
-        header("Location: program_info.php");
+        header("Location: programs_info.php");
         exit();
+    } else {
+        echo "Error: " . $stmt->error;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -198,6 +218,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <label class="form-label">Program Description</label>
                             <textarea class="form-control" name="program_desc" rows="3" required></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Department Code</label>
+                            <input type="text" class="form-control" name="dept_code" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Course Code</label>
+                            <input type="text" class="form-control" name="course_code" required>
+                        </div>
                         <?php for($i = 1; $i <= 4; $i++) : ?>
                             <div class="mb-3">
                                 <label class="form-label">Curriculum Image <?php echo $i; ?></label>
@@ -256,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="7" class="bg-light">
+                            <th colspan="8" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
                                     <h5 class="mb-0">Program Information</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -270,6 +298,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <th>Program Title</th>
                             <th>Description</th>
                             <th>Curriculum Images</th>
+                            <th>Department Code</th>
+                            <th>Course Code</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -290,6 +320,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                                         <?php endif; endfor; ?>
                                     </div>
                                 </td>
+                                <td data-label="Department Code"><?php echo htmlspecialchars($row['dept_code']); ?></td>
+                                <td data-label="Course Code"><?php echo htmlspecialchars($row['course_code']); ?></td>
+                                <td>
                                 <td>
                                     <a class="btn btn-sm btn-warning mx-1 edit_program">
                                         <i class="bi bi-pencil-square"></i>
