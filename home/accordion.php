@@ -25,7 +25,7 @@
                         <div class="accordion-body text-white">
                             <?php echo $res['description']; ?>
                             <br>
-                            <a href="<?php echo htmlspecialchars($res['page_url']); ?>" class="btn bg-red text-white mt-2">Click Me</a>
+                            <a href="<?php echo $res['page_url']?>" class="btn bg-red text-white mt-2">Click Me</a>
                         </div>
                     </div>
                 </div>
