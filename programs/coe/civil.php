@@ -2,7 +2,7 @@
 // Pass program ID when including curriculum.php
 $_GET['id'] = 1; // Set to appropriate program ID
 require_once('../../config.php');
-$query = "SELECT * FROM program_info WHERE id = ";
+$query = "SELECT * FROM program_info WHERE id = 1";
 $result = $con->query($query);
 $program = $result->fetch_assoc();
 ?>
