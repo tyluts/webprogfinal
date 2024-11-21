@@ -8,7 +8,7 @@ if(isset($_GET['id'])) {
     
     try {
         // Get all image paths before deleting
-        $query = "SELECT curriculum_image, curriculum_image2, curriculum_image3, curriculum_image4 
+        $query = "SELECT curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4 
                  FROM program_info WHERE id = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("i", $id);
@@ -31,7 +31,7 @@ if(isset($_GET['id'])) {
         $delete_stmt->bind_param("i", $id);
         
         if($delete_stmt->execute()) {
-            header('Location: program_info.php');
+            header('Location: programs_info.php');
             exit();
         } else {
             throw new Exception("Error deleting record: " . $delete_stmt->error);
@@ -41,7 +41,7 @@ if(isset($_GET['id'])) {
         error_log($e->getMessage());
         echo "<script>
                 alert('Error deleting program: " . addslashes($e->getMessage()) . "');
-                window.location.href = 'program_info.php';
+                window.location.href = 'programs_info.php';
               </script>";
     }
 }

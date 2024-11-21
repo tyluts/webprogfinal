@@ -1,7 +1,7 @@
 <?php
 require_once('config.php');
 
-// Function to get programs by ID range
+
 function getProgramsByRange($con, $startId, $endId) {
     $sql = "SELECT * FROM department_programs WHERE id BETWEEN ? AND ?";
     $stmt = $con->prepare($sql);
@@ -81,7 +81,8 @@ function getProgramsByRange($con, $startId, $endId) {
                                 <div class="position-relative">
                                     <img src="admin/<?php echo !empty($program['department_image']) ? 
                                         htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
-                                        class="card-img-top" alt="Department Image">
+                                        class="card-img-top" alt="Department Image"
+                                        style="height: 350px !important; width: 100%; object-fit: cover; border-radius: 18px;">
                                     <div class="position-absolute top-0 start-0 w-100 h-100" 
                                          style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
                                     </div>
@@ -90,9 +91,9 @@ function getProgramsByRange($con, $startId, $endId) {
                                     <h5 class="card-title mb-2 text-white">
                                         <?php echo htmlspecialchars($program['course_title']); ?>
                                     </h5>
-                                    <a href="<?php echo $program['id'] == 1 ? 'programs/coe/civil.php' : 'programs/coe/electrical.php'; ?>" class="btn bg-red text-white">
-    <?php echo htmlspecialchars($program['button_text']); ?>
-</a>
+                                    <a href="" class="btn bg-red text-white">
+                                        <?php echo htmlspecialchars($program['button_text']); ?>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -125,19 +126,20 @@ function getProgramsByRange($con, $startId, $endId) {
                                 <div class="position-relative">
                                     <img src="admin/<?php echo !empty($program['department_image']) ? 
                                         htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
-                                        class="card-img-top" alt="Department Image">
+                                        class="card-img-top" alt="Department Image" 
+                                        style="height: 350px !important; width: 100%; object-fit: cover; border-radius: 18px;">
                                     <div class="position-absolute top-0 start-0 w-100 h-100" 
-                                         style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
+                                        style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <h5 class="card-title mb-2 text-white">
                                         <?php echo htmlspecialchars($program['course_title']); ?>
                                     </h5>
-<!-- For second column (IDs 3-4) update button to: -->
-<a href="<?php echo $program['id'] == 3 ? 'programs/ccs/it.php' : 'programs/ccs/act.php'; ?>" class="btn bg-red text-white">
-    <?php echo htmlspecialchars($program['button_text']); ?>
-</a>
+                                    <!-- For second column (IDs 3-4) update button to: -->
+                                    <a href="<?php echo $program['id'] == 3 ? 'programs/ccs/it.php' : 'programs/ccs/act.php'; ?>" class="btn bg-red text-white">
+                                        <?php echo htmlspecialchars($program['button_text']); ?>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +158,7 @@ function getProgramsByRange($con, $startId, $endId) {
 
         <?php
         // Third Column (IDs 5-6)
-        $thirdColumn = getProgramsByRange($con, 5, 6);
+        $thirdColumn = getProgramsByRange($con, 7, 11);
         ?>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div id="carouselExampleCaptions3" class="carousel slide carousel-outer-controls" data-bs-ride="carousel">
@@ -170,7 +172,8 @@ function getProgramsByRange($con, $startId, $endId) {
                                 <div class="position-relative">
                                     <img src="admin/<?php echo !empty($program['department_image']) ? 
                                         htmlspecialchars($program['department_image']) : 'img/frosh.jpg'; ?>" 
-                                        class="card-img-top" alt="Department Image">
+                                        class="card-img-top" alt="Department Image"
+                                        style="height: 350px !important; width: 100%; object-fit: cover; border-radius: 18px;">
                                     <div class="position-absolute top-0 start-0 w-100 h-100" 
                                          style="background-color: rgba(0, 0, 0, 0.7); border-radius: 18px;">
                                     </div>
@@ -179,9 +182,9 @@ function getProgramsByRange($con, $startId, $endId) {
                                     <h5 class="card-title mb-2 text-white">
                                         <?php echo htmlspecialchars($program['course_title']); ?>
                                     </h5>
-<a href="<?php echo $program['id'] == 5 ? 'programs/cba/accountant.php' : 'programs/cba/business.php'; ?>" class="btn bg-red text-white">
-    <?php echo htmlspecialchars($program['button_text']); ?>
-</a>
+                                <a href="./programs/coursepage.php?course_code=<?php echo$program['course_code'];?>" class="btn bg-red text-white">
+                                    <?php echo htmlspecialchars($program['button_text']); ?>
+                                </a>
                                 </div>
                             </div>
                         </div>

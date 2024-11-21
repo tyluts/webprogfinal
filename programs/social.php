@@ -1,6 +1,6 @@
 <?php
 // Update the path to point to the correct location of config.php
-require_once('../../config.php');  // Assuming config.php is in the root directory
+//require_once('../../config.php');  // Assuming config.php is in the root directory
 
 $sql = "SELECT * FROM social_section WHERE ID = 1";
 $result = $con->query($sql);

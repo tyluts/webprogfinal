@@ -1,14 +1,14 @@
 <?php
-require_once('../../config.php');
+
 
 // Get program ID from URL
-$program_id = $_GET['id'] ?? 1; // Default to ID 1 if not specified
+$program_id = $_GET['course_code'];// Default to ID 1 if not specified
 
 try {
     $query = "SELECT curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4 
-              FROM program_info WHERE id = ?";
+              FROM program_info WHERE course_code = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("i", $program_id);
+    $stmt->bind_param("s", $program_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $program = $result->fetch_assoc();
