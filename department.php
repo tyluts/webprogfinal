@@ -195,17 +195,8 @@
 <div id="fullscreenOverlay" class="overlay" onclick="closeFullscreen()">
     <img id="overlayImage" src="" alt="Full-screen view" class="overlay-image">
 </div>
-            </div>
-            <div class="tab-pane fade " id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus necessitatibus, in laborum expedita perferendis molestiae sequi laboriosam asperiores quas vitae ipsum sapiente ut commodi harum voluptas aspernatur nemo sed quis.</div>
-            <div class="tab-pane fade bg-red" id="v-pills-disabled" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis porro iusto, pariatur similique quas aut, architecto corrupti necessitatibus aliquid neque voluptatum blanditiis, illo vel voluptatibus modi deserunt ullam officia? Sint.</div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis repellat quas deleniti a nisi provident officia, blanditiis eveniet ipsa voluptate beatae? Sapiente consequatur quas incidunt dolorem, magnam necessitatibus dolore placeat.</div>
-            
-        </div>
-    </div>
 
     <?php include 'programs/social.php'; ?>
-
-
              <div class="footer-wrapper dark-grey">
         <?php include 'include/footer.php'; ?>
     </div>

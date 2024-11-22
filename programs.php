@@ -36,7 +36,7 @@
           <div class="col container-fluid mt-5">
                <div  class="row">
                     <h1  class="red montserrat fw-bold">
-                         Department Programs
+                         Departments
                     </h1>
                </div>
           </div>

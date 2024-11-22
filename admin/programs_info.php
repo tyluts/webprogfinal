@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
     </style>
 </head>
 </head>
-<body class="black">
+<body class="bg-dark">
     <?php include 'adminnav.php'; ?>
 
     <!-- Add Program Modal -->

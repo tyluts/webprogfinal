@@ -28,10 +28,10 @@
                 <br>
             </div>
             <div class="col-md-4 text-md-end text-center ">
-                <a href="#">Home</a>
-                <a href="#">Programs</a>
-                <a href="#">Events</a>
-                <a href="#">About Us</a>
+                <a href="index.php">Home</a>
+                <a href="programs.php">Departments</a>
+                <a href="events.php">Events</a>
+                <a href="aboutus.php">About Us</a>
             </div>
         </div>
     </div>

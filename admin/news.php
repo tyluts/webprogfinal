@@ -157,7 +157,7 @@
 }
     </style>
 </head>
-<body class="black">
+<body class="bg-dark">
     <?php include 'adminnav.php'; ?>
 
 

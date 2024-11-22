@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['event_form'])) {
 
     </style>
 
-<body class="black">
+<body class="bg-dark">
     <?php include 'adminnav.php'; ?>
     <!---------insert modal------>
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

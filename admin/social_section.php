@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['social_form'])) {
 
     </style>
 </head>
-<body class="black">
+<body class="bg-dark">
     <?php include 'adminnav.php'; ?>
 
     <!-- Add Social Modal -->
