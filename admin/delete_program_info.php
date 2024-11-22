@@ -7,25 +7,6 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
     
     try {
-        // Get all image paths before deleting
-        $query = "SELECT curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4 
-                 FROM program_info WHERE id = ?";
-        $stmt = $con->prepare($query);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        
-        // Delete all associated images
-        if($row) {
-            foreach($row as $image_path) {
-                if(!empty($image_path) && file_exists($image_path)) {
-                    unlink($image_path);
-                }
-            }
-        }
-        
-        // Delete the database record
         $delete_query = "DELETE FROM program_info WHERE id = ?";
         $delete_stmt = $con->prepare($delete_query);
         $delete_stmt->bind_param("i", $id);
