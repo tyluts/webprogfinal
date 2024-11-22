@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <?php include 'include/head.php'; ?>
-    <title>Home</title>
+    <title>Programs</title>
       <style>
           .carousel-outer-controls .carousel-control-prev,
           .carousel-outer-controls .carousel-control-next {
