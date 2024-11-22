@@ -18,14 +18,8 @@ if(isset($_POST['get_program'])) {
 if(isset($_POST['update_program'])) {
     $id = $_POST['id'];
     $department_title = $_POST['department_title'];
-<<<<<<< Updated upstream
-
-    $dept_code = $_POST['dept_code'];
-
-=======
     $dept_code = $_POST['dept_code'];
     $dept_desc = $_POST['dept_desc'];
->>>>>>> Stashed changes
     $button_text = $_POST['button_text'];
 
 
