@@ -16,7 +16,7 @@ $result = $con->query($sql);
     <div class="content-overlay position-absolute top-50 start-50 translate-middle text-center text-white">
         <h2 class="mb-2"><?php echo htmlspecialchars($row['social_title']); ?></h2>
         <p class="mb-3"><?php echo htmlspecialchars($row['social_desc']); ?></p>
-        <a href="https://facebook.com" target="_blank" class="text-white">
+        <a href="https://www.facebook.com/LSBSharks" target="_blank" class="text-white">
             <i class="<?php echo htmlspecialchars($row['social_icon']); ?> fa-2x"></i>
         </a>
     </div>
