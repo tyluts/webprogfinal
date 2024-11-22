@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 // Fetch facilities data
-$query = "SELECT * FROM facilities_section WHERE id = 4";
+$query = "SELECT * FROM facilities_section WHERE id = 6";
 $result = mysqli_query($con, $query);
 $facility = mysqli_fetch_assoc($result);
 
@@ -23,9 +23,9 @@ if (!$facility) {
 <div class="container-fluid my-4">
     <!-- Facility Title and Description -->
     <div class="row mb-4">
-        <div class="col-12 text-center">
+        <div class="col-12 mt-5">
             <h2 class="montserrat red fs-1 fw-bold"><?php echo htmlspecialchars($facility['facility_title']); ?></h2>
-            <p class="hind white"><?php echo htmlspecialchars($facility['facility_desc']); ?></p>
+            <p class="hind white mt-3 mb-5"><?php echo htmlspecialchars($facility['facility_desc']); ?></p>
         </div>
     </div>
 

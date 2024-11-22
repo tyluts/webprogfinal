@@ -101,7 +101,7 @@
 
 ?>
 
-<div class="container-fluid m-5">
+<div class="container-fluid ">
     <div class="row justify-content-center no-gutters">
         <div class="col-12">
             <div class="position-relative overflow-hidden" 

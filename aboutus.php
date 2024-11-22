@@ -19,19 +19,7 @@
     <?php include 'aboutus/mission.php'; ?>
       <?php include 'aboutus/vision.php'; ?>
 
-       <section class=" mb-5">
-        <div class="col container-fluid mt-5">
-            <div  class="row">
-                <h1  class="red montserrat fw-bold">
-                    Facilities
-                </h1>
-            </div>
-            <div  class="row">
-                <p  class="white hind">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                </p>
-            </div>
-        </div>
+       
          
         
     </section>

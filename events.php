@@ -88,10 +88,8 @@ $news_sql_result = $con->query($news_sql);
                                 <h5 class="card-title text-white">
                                     <?php echo htmlspecialchars($row['title']); ?>
                                 </h5>
-                                <h6 class="card-title text-white">
-                                    <?php echo htmlspecialchars($row['description']); ?>
-                                </h6>
-                                <button class="btn bg-red text-white view_event" 
+                               
+                                <button class="btn bg-red text-white view_event mt-2" 
                                         data-id="<?php echo $row['ID']; ?>"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#eventModal">
@@ -134,10 +132,8 @@ $news_sql_result = $con->query($news_sql);
                                 <h5 class="card-title text-white">
                                     <?php echo htmlspecialchars($news['title']); ?>
                                 </h5>
-                                <h6 class="card-title text-white">
-                                    <?php echo htmlspecialchars($news['caption']); ?>
-                                </h6>
-                                <button class="btn bg-red text-white view_news_deets"
+                                
+                                <button class="btn bg-red text-white view_news_deets mt-2"
                                         data-id="<?php echo $news['ID']; ?>"
                                         data-bs-toggle="modal"
                                         data-bs-target="#news_deets_modal">

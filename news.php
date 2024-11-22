@@ -33,7 +33,7 @@
                                         <div class="card-body">
                                             <input type="hidden" class="news_id" value="<?php echo $news['ID']; ?>">
                                             <h5 class="card-title text-white"><?php echo $news['title']; ?></h5>
-                                            <h6 class="card-title text-white"><?php echo $news['caption']; ?></h6>
+                                           
                                             <a class="btn bg-red text-white view_news_deets">View details</a>
                                         </div>
                                     </div>
