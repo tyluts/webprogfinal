@@ -18,9 +18,14 @@ if(isset($_POST['get_program'])) {
 if(isset($_POST['update_program'])) {
     $id = $_POST['id'];
     $department_title = $_POST['department_title'];
+<<<<<<< Updated upstream
 
     $dept_code = $_POST['dept_code'];
 
+=======
+    $dept_code = $_POST['dept_code'];
+    $dept_desc = $_POST['dept_desc'];
+>>>>>>> Stashed changes
     $button_text = $_POST['button_text'];
 
 
@@ -31,14 +36,14 @@ if(isset($_POST['update_program'])) {
         $targetFilePath = $uploadDir . $imageName;
 
         if(move_uploaded_file($image['tmp_name'], $targetFilePath)) {
-            $query = "UPDATE department_programs SET department_title=?, course_title=?, button_text=?, department_image=? WHERE id=?";
+            $query = "UPDATE department_programs SET department_title=?, button_text=?, department_image=?, dept_code=?, dept_desc=? WHERE id=?";
             $stmt = $con->prepare($query);
-            $stmt->bind_param("ssssi", $department_title, $course_title, $button_text, $targetFilePath, $id);
+            $stmt->bind_param("sssssi", $department_title, $button_text, $targetFilePath,$dept_code,$dept_desc, $id);
         }
     } else {
-        $query = "UPDATE department_programs SET department_title=?, course_title=?, button_text=? WHERE id=?";
+        $query = "UPDATE department_programs SET department_title=?, button_text=?, department_image=?, dept_code=?, dept_desc=? WHERE id=?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param("sssi", $department_title, $course_title, $button_text, $id);
+        $stmt->bind_param("sssssi", $department_title, $button_text, $targetFilePath,$dept_code,$dept_desc, $id);
     }
 
     if($stmt->execute()) {

@@ -9,11 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
     $course_code = $_POST['course_code'];
     $dept_code = $_POST['dept_code'];
 
-    $curriculum_image1 = $images['curriculum_image'] ?? null;
-    $curriculum_image2 = $images['curriculum_image2'] ?? null;
-    $curriculum_image3 = $images['curriculum_image3'] ?? null;
-    $curriculum_image4 = $images['curriculum_image4'] ?? null;
-
     $stmt = $con->prepare("INSERT INTO program_info (program_title, program_desc, course_code, dept_code) VALUES ( ?, ?, ?, ?)");
     $stmt->bind_param(
         "ssss",

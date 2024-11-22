@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         }
 
         if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-            $stmt = $con->prepare("INSERT INTO department_programs (department_title, button_text, department_imagem, dept_code, dept_desc) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $department_title, $button_text, $targetFilePath, $dept_code, $dept_code);
+            $stmt = $con->prepare("INSERT INTO department_programs (department_title, button_text, department_image, dept_code, dept_desc) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $department_title, $button_text, $targetFilePath, $dept_code, $dept_code);
 
             if ($stmt->execute()) {
                 header("Refresh: 1; url=department_programs.php");
