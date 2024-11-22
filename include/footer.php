@@ -2,7 +2,10 @@
     <div class="container">
         <hr>
         <div class="row align-items-center">
-            <div class="col-md-4 text-md-start text-center mb-2 mb-md-0">Copyright © 2022 Lyceum of Subic Bay, Inc.</div>
+            <div class="col-md-4 text-md-start text-center mb-2 mb-md-0">© 2024 Company, Inc
+                <br>
+                73 Rizal Hwy, Central Business District, Subic Bay Freeport Zone, Zambales, Subic, Philippines
+            </div>
             <div class="col-md-4 text-center">
                 <!-- Social Media Icons -->
                 <a href="https://www.facebook.com/LSBSharks" class="footer-icon" target="_blank">
@@ -17,13 +20,18 @@
                 <a href="https://x.com/lsbsharks" class="footer-icon" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
+                <br>
+                For more info call us at
+                <br>
+                (047) 252 - 5940
+                09285020242
+                <br>
             </div>
             <div class="col-md-4 text-md-end text-center ">
-                <a href="index.php">Home</a>
-                <a href="programs.php">Programs</a>
-                <a href="events.php">Events</a>
-                <a href="aboutus.php">About Us</a>
-               
+                <a href="#">Home</a>
+                <a href="#">Programs</a>
+                <a href="#">Events</a>
+                <a href="#">About Us</a>
             </div>
         </div>
     </div>

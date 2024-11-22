@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Department Program</h5>
+                    <h5 class="modal-title">Add Department</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <label class="form-label">Department Image</label>
                             <input type="file" class="form-control" name="department_image" accept="image/*" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Department Program</button>
+                        <button type="submit" class="btn btn-primary w-100">Add Department</button>
                     </form>
                 </div>
             </div>
@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Department Program</h5>
+                    <h5 class="modal-title">Edit Department</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <label class="form-label">Department Image</label>
                             <input type="file" class="form-control" name="department_image" accept="image/*">
                         </div>
-                        <button type="submit" name="update_program" class="btn btn-primary w-100">Update Program</button>
+                        <button type="submit" name="update_program" class="btn btn-primary w-100">Update</button>
                     </form>
                 </div>
             </div>
@@ -251,9 +251,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                         <tr>
                             <th colspan="7" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
-                                    <h5 class="mb-0">Department Programs</h5>
+                                    <h5 class="mb-0">Departments</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                        Add Department Program
+                                        Add Department
                                     </button>
                                 </div>
                             </th>
