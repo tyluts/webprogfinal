@@ -1,8 +1,21 @@
 <?php
   require_once('../config.php');
   
-  $eventsSql = "SELECT * FROM events ORDER BY date asc";
+  $eventsSql = "SELECT COUNT(ID) as count FROM events";
   $eventsSqlResult = $con->query($eventsSql);
+  $eventsCount = $eventsSqlResult->fetch_assoc()['count'];
+
+  $postsSql = "SELECT COUNT(ID) as count FROM posts";
+  $postsSqlResult = $con->query($postsSql);
+  $postsCount = $postsSqlResult->fetch_assoc()['count'];
+  
+  $department_programsSql = "SELECT COUNT(ID) as count FROM department_programs";
+  $department_programsSqlResult = $con->query($department_programsSql);
+  $department_programsCount = $department_programsSqlResult->fetch_assoc()['count'];
+
+  $program_infoSql = "SELECT COUNT(ID) as count FROM program_info";
+  $program_infoSqlResult = $con->query($program_infoSql);
+  $program_infoCount = $program_infoSqlResult->fetch_assoc()['count'];
 ?>
 
 <!DOCTYPE html>
@@ -26,21 +39,21 @@
   <div class="container mt-5 py-5 ">
   <div class="row">
     <div class="col-md-6 mb-4" >
-      <a href="page1.html" class="card-link">
+      <a href="department_programs.php" class="card-link">
         <div class="card square-card ">
           <div class="card-body d-flex flex-column justify-content-center">
-            <h5 class="card-title text-center">Title 1</h5>
-            <p class="card-text text-center">This is the description for the first card.</p>
+            <h1 class="card-title text-center"><?php echo $department_programsCount; ?></h1>
+            <H5 class="card-text text-center">DEPARTMENTS</H5>
           </div>
         </div>
       </a>
     </div>
     <div class="col-md-6 mb-4">
-      <a href="page2.html" class="card-link">
+      <a href="programs_info.php" class="card-link">
         <div class="card square-card ">
           <div class="card-body d-flex flex-column justify-content-center">
-            <h5 class="card-title text-center">Title 2</h5>
-            <p class="card-text text-center">This is the description for the second card.</p>
+            <h1 class="card-title text-center"><?php echo $program_infoCount; ?></h1>
+            <H5 class="card-text text-center">PROGRAMS</H5>
           </div>
         </div>
       </a>
@@ -48,21 +61,21 @@
   </div>
   <div class="row">
     <div class="col-md-6 mb-4">
-      <a href="page3.html" class="card-link">
+      <a href="events.php" class="card-link">
         <div class="card square-card">
           <div class="card-body d-flex flex-column justify-content-center">
-            <h5 class="card-title text-center">Title 3</h5>
-            <p class="card-text text-center">This is the description for the third card.</p>
+            <h1 class="card-title text-center"><?php echo $eventsCount; ?></h1>
+            <H5 class="card-text text-center">EVENTS</H5>
           </div>
         </div>
       </a>
     </div>
     <div class="col-md-6 mb-4">
-      <a href="page4.html" class="card-link">
+      <a href="news.php" class="card-link">
         <div class="card square-card">
           <div class="card-body d-flex flex-column justify-content-center">
-            <h5 class="card-title text-center">Title 4</h5>
-            <p class="card-text text-center">This is the description for the fourth card.</p>
+            <h1 class="card-title text-center"><?php echo $postsCount; ?></h1>
+            <H5 class="card-text text-center">NEWS</H5>
           </div>
         </div>
       </a>
