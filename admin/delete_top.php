@@ -1,18 +1,27 @@
 <?php
 require_once('../config.php');
 
-// Handle delete request
-if (isset($_POST['delete_program'])) {
-    $id = $_POST['program_id'];
-    
-    // Delete program
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_program']) && isset($_POST['program_id'])) {
+    $program_id = $_POST['program_id'];
+
+    // Perform the deletion (soft delete or actual delete)
     $stmt = $con->prepare("DELETE FROM top_programs WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    
+    if ($stmt === false) {
+        echo "error: " . $con->error;
+        exit;
+    }
+
+    $stmt->bind_param("i", $program_id);
+
     if ($stmt->execute()) {
         echo "success";
     } else {
-        echo "error";
+        echo "error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $con->close();
+} else {
+    echo "error: Invalid request";
 }
 ?>

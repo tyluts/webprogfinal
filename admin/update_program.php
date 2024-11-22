@@ -18,8 +18,11 @@ if(isset($_POST['get_program'])) {
 if(isset($_POST['update_program'])) {
     $id = $_POST['id'];
     $department_title = $_POST['department_title'];
-    $course_title = $_POST['course_title'];
+
+    $dept_code = $_POST['dept_code'];
+
     $button_text = $_POST['button_text'];
+
 
     if(isset($_FILES['department_image']) && $_FILES['department_image']['error'] == 0) {
         $image = $_FILES['department_image'];
