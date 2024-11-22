@@ -1,9 +1,19 @@
-
+<?php
+    session_start();
+    require_once 'config.php';
+    $dept_code = htmlspecialchars($_GET['dept_code']);
+    $dept_query = "SELECT * FROM department_programs WHERE dept_code = ?";
+    $stmt = $con->prepare($dept_query);
+    $stmt->bind_param("s", $dept_code);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $program = $result->fetch_assoc();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
      <?php include 'include/head.php'; ?>
-    <title>Civil Engineering - LSB</title>
+    <title></title>
     <!-- Make sure footer CSS is loaded -->
  <link rel="stylesheet" href="../../css/colors.css">
     <link rel="stylesheet" href="../../css/homecss/color.css">
@@ -79,32 +89,15 @@
         
    <?php
 // Include database connection
-require_once 'config.php';
+
 
     $top_programs_sql = "SELECT * FROM top_programs";
     $top_programs_result = $con->query($top_programs_sql);
-$query = "SELECT * FROM hero_section WHERE id = 1";
-$result = mysqli_query($con, $query);
-$hero = mysqli_fetch_assoc($result);
+    $query = "SELECT * FROM hero_section WHERE id = 1";
+    $result = mysqli_query($con, $query);
+    $hero = mysqli_fetch_assoc($result);
 
 // Get program ID from URL
-
-
-try {
-    $query = "SELECT curriculum_image1, curriculum_image2, curriculum_image3, curriculum_image4 
-              FROM program_info WHERE course_code = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("s", $program_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $program = $result->fetch_assoc();
-
-    // Debug
-    error_log("Program Images for ID $program_id: " . print_r($program, true));
-} catch (Exception $e) {
-    error_log("Error fetching curriculum: " . $e->getMessage());
-    $program = null;
-}
 
 ?>
 
@@ -133,49 +126,71 @@ try {
     </div>
 </div>
 
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12 text-center ">
-            <h2 class="fw-bold fs-2 red">Department Programs</h2>
-            <p class="text-white mt-4">Explore our diverse range of programs designed to empower students with the knowledge and skills needed to excel in their chosen fields. Our programs are tailored to meet the needs of today's dynamic job market and provide hands-on learning experiences.</p>
-        </div>
-    </div>
-</div>
 
- <div class="container d-flex align-items-start text-white dark-grey     p-5" style="border-radius: 20px">
-        <div class=" nav flex-column   border-pill me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-       <button class="nav-link active m-2 bg-red text-white btn-success" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-            <button class="nav-link m-2 bg-red text-white " id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile " aria-selected="false">Profile</button>
-            <button class="nav-link m-2 bg-red text-white" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-          
+    
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 text-center ">
+                <h2 class="fw-bold fs-2 red"><?php echo $program['department_title'];?></h2>
+                <p class="text-white mt-4"><?php echo $program['dept_desc']?></p>
+            </div>
         </div>
-        <div class="tab-content " id="v-pills-tabContent">
-            <div class="tab-pane fade show active " id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-                 <h3 class="fw-bold fs-4 red">Home</h3>
-            <p class=" ">Welcome to the Home tab. Here you can find information about our department programs and other relevant details.</p>
-            <div class="container-fluid mx-auto mt-5">
-    <div class="row  image-grid justify-content-center" style="margin: 0px;">
-        <?php 
-        $years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
-        for($i = 1; $i <= 4; $i++): 
-            $image_field = 'curriculum_image' . $i;
-            // Debug image path
-            error_log("Image $i path: " . ($program[$image_field] ?? 'not set'));
-            $image_src = ($program && !empty($program[$image_field])) ? 
-                        "admin/" . $program[$image_field] : 
-                        "img/frosh.jpg";
-        ?>
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 image-container">
-            <img src="<?php echo htmlspecialchars($image_src); ?>" 
-                 alt="<?php echo $years[$i-1]; ?>" 
-                 class="img-fluid thumbnail" 
-                 style="height: 150px; width: 100%; " 
-                 onclick="openFullscreen(this)">
-            <p class="image-title text-white"><?php echo $years[$i-1]; ?></p>
-        </div>
-        <?php endfor; ?>
     </div>
-</div>
+
+    <?php
+        $dept_code = htmlspecialchars($_GET['dept_code']);
+        $programs_query = "SELECT * FROM program_info WHERE dept_code = ?";
+        $stmt = $con->prepare($programs_query);
+        $stmt->bind_param("s", $dept_code);
+        $stmt->execute();
+        $programs_result = $stmt->get_result();
+        $programs = [];
+        while ($row = $programs_result->fetch_assoc()) {
+            $programs[] = $row;
+        }
+    ?>
+
+    <div class="container d-flex align-items-start text-white dark-grey p-5" style="border-radius: 20px">
+        <div class="nav flex-column border-pill me-3 col-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <?php foreach ($programs as $index => $program): ?>
+                <button class="nav-link m-2 bg-red text-white <?= $index === 0 ? 'active' : '' ?>"
+                        id="v-pills-<?= htmlspecialchars($program['course_code']); ?>-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#v-pills-<?= htmlspecialchars($program['course_code']); ?>"
+                        type="button"
+                        role="tab"
+                        aria-controls="v-pills-<?= htmlspecialchars($program['course_code']); ?>"
+                        aria-selected="<?= $index === 0 ? 'true' : 'false' ?>">
+                    <?= htmlspecialchars($program['program_title']); ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
+        <div class="tab-content col-8" id="v-pills-tabContent">
+            <?php foreach ($programs as $index => $program): ?>
+                <div class="tab-pane fade <?= $index === 0 ? 'show active' : '' ?>"
+                    id="v-pills-<?= htmlspecialchars($program['course_code']); ?>"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-<?= htmlspecialchars($program['course_code']); ?>-tab">
+                    <h3 class="fw-bold fs-4 red"><?= htmlspecialchars($program['program_title']); ?></h3>
+                    <p class="text-white"><?= htmlspecialchars($program['program_desc']); ?></p>
+                    <div class="row">
+                        <?php 
+                        
+                        for ($i = 1; $i <= 4; $i++):
+                            $image_field = "curriculum_image" . $i;
+                            if (!empty($program[$image_field])):
+                                $image_src = htmlspecialchars($program[$image_field]);
+                        ?>
+                        <div class="col-md-3">
+                            <img src="<?= $image_src; ?>" alt="Curriculum Image <?= $i; ?>" class="img-fluid mb-3" />
+                        </div>
+                        <?php endif; endfor; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
 
 <div id="fullscreenOverlay" class="overlay" onclick="closeFullscreen()">
     <img id="overlayImage" src="" alt="Full-screen view" class="overlay-image">

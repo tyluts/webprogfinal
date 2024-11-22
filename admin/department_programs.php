@@ -5,7 +5,8 @@ $programSqlResult = $con->query($programSql);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
     $department_title = $_POST['department_title'];
-    $course_title = $_POST['course_title'];
+    $dept_code = $_POST['dept_code'];
+    $dept_desc = $_POST['dept_desc'];
     $button_text = $_POST['button_text'];
 
     if (isset($_FILES['department_image']) && $_FILES['department_image']['error'] == 0) {
@@ -20,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
         }
 
         if (move_uploaded_file($imageTmpPath, $targetFilePath)) {
-            $stmt = $con->prepare("INSERT INTO department_programs (department_title, course_title, button_text, department_image) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $department_title, $course_title, $button_text, $targetFilePath);
+            $stmt = $con->prepare("INSERT INTO department_programs (department_title, button_text, department_imagem, dept_code, dept_desc) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $department_title, $button_text, $targetFilePath, $dept_code, $dept_code);
 
             if ($stmt->execute()) {
                 header("Refresh: 1; url=department_programs.php");
@@ -181,8 +182,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <input type="text" class="form-control" name="department_title" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Course Title</label>
-                            <input type="text" class="form-control" name="course_title" required>
+                            <label class="form-label">Department Description</label>
+                            <input type="text" class="form-control" name="dept_desc" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Department Code</label>
+                            <input type="text" class="form-control" name="dept_code" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Button Text</label>
@@ -215,8 +220,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <input type="text" class="form-control department_title" name="department_title" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Course Title</label>
-                            <input type="text" class="form-control course_title" name="course_title" required>
+                            <label class="form-label">Deparment Description</label>
+                            <input type="text" class="form-control dept_desc" name="dept_desc" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deparment Code</label>
+                            <input type="text" class="form-control dept_code" name="dept_code" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Button Text</label>
@@ -240,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                 <table class="table table-bordered table-striped table-hover mb-0">
                     <thead>
                         <tr>
-                            <th colspan="6" class="bg-light">
+                            <th colspan="7" class="bg-light">
                                 <div class="d-flex justify-content-between align-items-center p-2">
                                     <h5 class="mb-0">Department Programs</h5>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -253,8 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                             <th>ID</th>
                             <th>Image</th>
                             <th>Department Title</th>
-                            <th>Course Title</th>
-                            <th>Button Text</th>
+                            <th>Deparment Description</th>
+                            <th>Deparment Code</th>
+                            <th>Button text</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -270,7 +280,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['program_form'])) {
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($row['department_title']); ?></td>
-                                <td><?php echo htmlspecialchars($row['course_title']); ?></td>
+                                <td><?php echo htmlspecialchars($row['dept_desc']); ?></td>
+                                <td><?php echo htmlspecialchars($row['dept_code']); ?></td>
                                 <td><?php echo htmlspecialchars($row['button_text']); ?></td>
                                 <td>
                                     <a class="btn btn-sm btn-warning mx-1 edit_program">
@@ -310,7 +321,8 @@ $(document).ready(function() {
                 var data = JSON.parse(response);
                 $('.program_id').val(data.id);
                 $('.department_title').val(data.department_title);
-                $('.course_title').val(data.course_title);
+                $('.dept_desc').val(data.dept_desc);
+                $('.dept_code').val(data.dept_code);
                 $('.button_text').val(data.button_text);
                 $('#editProgramModal').modal('show');
             }

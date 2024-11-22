@@ -61,10 +61,7 @@ function getProgramsByRange($con, $startId, $endId) {
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        <h5 class="card-title mb-2 text-white  ">
-                            <?php echo htmlspecialchars($program['course_title']); ?>
-                        </h5>
-                        <a href="" class="btn bg-red text-white">
+                        <a href="department.php?dept_code=<?php echo urlencode(trim($program['dept_code'])) ?>" class="btn bg-red text-white w-100">
                             <?php echo htmlspecialchars($program['button_text']); ?>
                         </a>
                     </div>
@@ -91,10 +88,7 @@ function getProgramsByRange($con, $startId, $endId) {
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        <h5 class="card-title mb-2 text-white">
-                            <?php echo htmlspecialchars($program['course_title']); ?>
-                        </h5>
-                        <a href="<?php echo $program['id'] == 3 ? 'programs/ccs/it.php' : 'programs/ccs/act.php'; ?>" class="btn bg-red text-white">
+                        <a href="department.php?dept_code=<?php echo urlencode(trim($program['dept_code'])) ?>" class="btn bg-red text-white w-100">
                             <?php echo htmlspecialchars($program['button_text']); ?>
                         </a>
                     </div>
@@ -121,10 +115,7 @@ function getProgramsByRange($con, $startId, $endId) {
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        <h5 class="card-title mb-2 text-white">
-                            <?php echo htmlspecialchars($program['course_title']); ?>
-                        </h5>
-                        <a href="./programs/coursepage.php?course_code=<?php echo urlencode(trim($program['course_code'])); ?>" class="btn bg-red text-white">
+                        <a href="department.php?dept_code=<?php echo urlencode(trim($program['dept_code'])) ?>" class="btn bg-red text-white w-100">
                             <?php echo htmlspecialchars($program['button_text']); ?>
                         </a>
                     </div>

@@ -39,11 +39,6 @@
                          Department Programs
                     </h1>
                </div>
-               <div  class="row">
-                    <p  class="white hind">
-                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    </p>
-               </div>
           </div>
          <?php include 'programs/card.php'; ?>
     </section>
